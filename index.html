@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#EEF2FA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SSIS AI Hub">
+<script>
+(function(){
+  var k='ssis-ai-hub-dark';
+  if(localStorage.getItem(k)){
+    document.documentElement.setAttribute('data-theme','dark');
+    var tc=document.querySelector('meta[name="theme-color"]');
+    var sb=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+    if(tc)tc.setAttribute('content','#0F172A');
+    if(sb)sb.setAttribute('content','black-translucent');
+  }
+})();
+</script>
+<title>SSIS AI Hub</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script src="/sw-register.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-display: 'Poppins', 'Inter', sans-serif;
+  --bg-color: #EEF2FA;
+  --bg-pattern: #D8E6F7;
+  --text-main: #1A2340;
+  --text-secondary: #546380;
+  --brand-primary: #1A56DB;
+  --brand-accent: #0E9488;
+  --brand-danger: #DC2626;
+  --brand-amber: #D97706;
+  --brand-green: #16A34A;
+  --brand-purple: #7C3AED;
+  --card-bg: #FFFFFF;
+  --card-border: #CBD5E1;
+  --card-shadow: 0 4px 16px rgba(26,86,219,0.06);
+  --nav-bg: rgba(255,255,255,0.95);
+  --nav-border: rgba(26,86,219,0.12);
+  --muted-bg: #F1F5F9;
+  --muted-text: #64748B;
+  --input-bg: #FFFFFF;
+  --input-border: #CBD5E1;
+}
+[data-theme="dark"] {
+  --bg-color: #0F172A;
+  --bg-pattern: #1E293B;
+  --text-main: #E2E8F0;
+  --text-secondary: #94A3B8;
+  --brand-primary: #60A5FA;
+  --brand-accent: #2DD4BF;
+  --brand-danger: #F87171;
+  --brand-amber: #FCD34D;
+  --brand-green: #4ADE80;
+  --brand-purple: #A78BFA;
+  --card-bg: #1E293B;
+  --card-border: #334155;
+  --card-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  --nav-bg: rgba(15,23,42,0.95);
+  --nav-border: rgba(255,255,255,0.08);
+  --muted-bg: #1E293B;
+  --muted-text: #94A3B8;
+  --input-bg: #1E293B;
+  --input-border: #334155;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  background-image: radial-gradient(var(--bg-pattern) 1px, transparent 1px);
+  background-size: 28px 28px;
+  font-family: var(--font-sans);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+.offline-font body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+/* HEADER */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  backdrop-filter: blur(8px);
+}
+.header-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.header-brand {
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 12px; text-align: left;
+  padding: 0;
+}
+.brand-avatar {
+  width: 40px; height: 40px; border-radius: 8px;
+  background: var(--brand-primary); color: white;
+  font-weight: 800; font-size: 1.25rem;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); flex-shrink: 0;
+}
+.brand-title {
+  display: block; font-family: var(--font-display);
+  font-size: 1.35rem; font-weight: 700;
+  color: var(--brand-primary); line-height: 1.2;
+}
+.brand-subtitle {
+  display: block; font-size: 0.65rem; font-weight: 600;
+  color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.btn-back {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 8px;
+  border: 1px solid var(--card-border);
+  background: none; color: var(--text-secondary);
+  cursor: pointer; font-size: 0.875rem; font-weight: 600;
+  transition: all 0.15s;
+}
+.btn-back:hover { color: var(--brand-primary); border-color: var(--brand-primary); background: var(--muted-bg); }
+.btn-theme {
+  width: 40px; height: 40px; border-radius: 8px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg); cursor: pointer;
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.btn-theme:hover { border-color: var(--brand-primary); }
+/* MAIN */
+.main-content { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
+/* HOME */
+.home-hero { text-align: center; padding: 32px 0 40px; max-width: 600px; margin: 0 auto; }
+.home-avatar {
+  width: 80px; height: 80px; border-radius: 16px;
+  background: var(--brand-primary); color: white;
+  font-size: 2.5rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px; font-family: var(--font-display);
+  box-shadow: 0 8px 24px rgba(26,86,219,0.25);
+}
+.home-title { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--text-main); margin: 0 0 12px; }
+.home-desc { color: var(--text-secondary); line-height: 1.6; margin: 0 0 16px; font-size: 1rem; }
+.badge {
+  display: inline-block; padding: 4px 12px; border-radius: 999px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.badge-staff { background: rgba(26,86,219,0.1); color: var(--brand-primary); border: 1px solid rgba(26,86,219,0.2); }
+.badge-pdf { background: rgba(220,38,38,0.1); color: var(--brand-danger); border: 1px solid rgba(220,38,38,0.2); }
+.tiles-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media(min-width:640px){ .tiles-grid { grid-template-columns: repeat(2,1fr); } }
+@media(min-width:960px){ .tiles-grid { grid-template-columns: repeat(3,1fr); } }
+.tile {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 16px; padding: 24px; cursor: pointer;
+  text-align: left; display: flex; flex-direction: column;
+  min-height: 240px; box-shadow: var(--card-shadow);
+  transition: all 0.2s; text-decoration: none; color: inherit;
+}
+.tile:hover {
+  box-shadow: 0 12px 32px rgba(26,86,219,0.12);
+  transform: translateY(-3px);
+  border-color: rgba(26,86,219,0.3);
+}
+.tile-icon {
+  width: 52px; height: 52px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px; flex-shrink: 0;
+}
+.tile-icon svg { width: 28px; height: 28px; }
+.tile-icon--primary { background: rgba(26,86,219,0.1); }
+.tile-icon--primary svg { color: var(--brand-primary); stroke: var(--brand-primary); }
+.tile:hover .tile-icon--primary { background: rgba(26,86,219,0.2); }
+.tile-icon--accent { background: rgba(14,148,136,0.1); }
+.tile-icon--accent svg { color: var(--brand-accent); stroke: var(--brand-accent); }
+.tile-icon--amber { background: rgba(217,119,6,0.1); }
+.tile-icon--amber svg { color: var(--brand-amber); stroke: var(--brand-amber); }
+.tile-icon--purple { background: rgba(124,58,237,0.1); }
+.tile-icon--purple svg { color: var(--brand-purple); stroke: var(--brand-purple); }
+.tile-icon--green { background: rgba(22,163,74,0.1); }
+.tile-icon--green svg { color: var(--brand-green); stroke: var(--brand-green); }
+.tile-icon--danger { background: rgba(220,38,38,0.1); }
+.tile-icon--danger svg { color: var(--brand-danger); stroke: var(--brand-danger); }
+.tile-title { font-size: 1.125rem; font-weight: 700; color: var(--text-main); margin: 0 0 8px; }
+.tile-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; flex: 1; margin: 0 0 16px; }
+.tile-cta { font-size: 0.875rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+.tile-cta--primary { color: var(--brand-primary); }
+.tile-cta--accent { color: var(--brand-accent); }
+.tile-cta--amber { color: var(--brand-amber); }
+.tile-cta--purple { color: var(--brand-purple); }
+.tile-cta--green { color: var(--brand-green); }
+.tile-cta--danger { color: var(--brand-danger); }
+.tile--pdf .tile-top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0; }
+/* CHECKER */
+.checker-layout { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media(min-width:960px){ .checker-layout { grid-template-columns: 2fr 1fr; } }
+.step-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 20px; margin-bottom: 16px;
+}
+.step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.step-badge {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.875rem; flex-shrink: 0;
+}
+.step-badge--active { background: var(--brand-primary); color: white; }
+.step-badge--done { background: var(--muted-bg); color: var(--text-secondary); }
+.step-title { font-size: 1rem; font-weight: 700; color: var(--text-main); margin: 0; }
+.step-selection {
+  margin-left: auto; font-size: 0.75rem; padding: 3px 10px;
+  border-radius: 999px; border: 1px solid var(--card-border);
+  color: var(--text-secondary); background: var(--muted-bg);
+}
+.purpose-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+@media(min-width:640px){ .purpose-grid { grid-template-columns: 1fr 1fr; } }
+.purpose-btn {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px; border-radius: 8px;
+  border: 2px solid var(--card-border);
+  background: none; cursor: pointer; text-align: left;
+  color: var(--text-main); transition: all 0.15s;
+  font-size: 0.9rem; font-weight: 500; min-height: 44px;
+}
+.purpose-btn:hover { border-color: var(--brand-primary); background: rgba(26,86,219,0.04); }
+.purpose-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--muted-bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.purpose-icon svg { width: 18px; height: 18px; }
+.step-reminder {
+  margin-top: 12px; padding: 14px; border-radius: 8px;
+  background: rgba(14,148,136,0.08); border: 1px solid rgba(14,148,136,0.2);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.step-reminder svg { color: var(--brand-accent); flex-shrink: 0; margin-top: 2px; width: 18px; height: 18px; }
+.step-reminder p { font-size: 0.875rem; color: var(--text-main); margin: 0; line-height: 1.5; }
+.step-reminder a { color: var(--brand-primary); font-size: 0.875rem; font-weight: 600; display: block; margin-top: 8px; }
+.tool-list { display: flex; flex-direction: column; gap: 6px; max-height: 400px; overflow-y: auto; }
+.tool-btn {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; padding: 12px; border-radius: 8px;
+  border: 2px solid var(--card-border);
+  background: none; cursor: pointer; text-align: left;
+  transition: all 0.15s; min-height: 44px;
+}
+.tool-btn:hover { border-color: var(--brand-primary); background: rgba(26,86,219,0.04); }
+.tool-btn--blocked { border-color: rgba(220,38,38,0.3); background: rgba(220,38,38,0.04); }
+.tool-btn--blocked:hover { border-color: var(--brand-danger); background: rgba(220,38,38,0.08); }
+.tool-name { font-weight: 600; font-size: 0.9rem; display: block; color: var(--text-main); }
+.tool-desc { font-size: 0.8rem; color: var(--text-secondary); display: block; margin-top: 2px; }
+.tool-access-badge {
+  padding: 3px 8px; border-radius: 999px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; flex-shrink: 0; white-space: nowrap;
+}
+.badge--staff { background: rgba(14,148,136,0.1); color: var(--brand-accent); border: 1px solid rgba(14,148,136,0.2); }
+.badge--both { background: rgba(22,163,74,0.1); color: var(--brand-green); border: 1px solid rgba(22,163,74,0.2); }
+.badge--blocked { background: rgba(220,38,38,0.1); color: var(--brand-danger); border: 1px solid rgba(220,38,38,0.2); }
+.yesno-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.yesno-btn {
+  flex: 1; min-width: 140px; padding: 16px; border-radius: 8px;
+  border: 2px solid var(--card-border);
+  background: none; cursor: pointer; text-align: left; transition: all 0.15s;
+}
+.yesno-btn strong { display: block; font-weight: 700; margin-bottom: 2px; color: var(--text-main); }
+.yesno-btn span { font-size: 0.8rem; color: var(--text-secondary); }
+.yesno-btn--yes-green { border-color: rgba(22,163,74,0.3); }
+.yesno-btn--yes-green:hover { border-color: var(--brand-green); background: rgba(22,163,74,0.04); }
+.yesno-btn--yes-amber { border-color: rgba(217,119,6,0.3); }
+.yesno-btn--yes-amber:hover { border-color: var(--brand-amber); background: rgba(217,119,6,0.04); }
+.yesno-btn--default:hover { border-color: var(--brand-primary); background: rgba(26,86,219,0.04); }
+.btn-reset {
+  width: 100%; padding: 12px; border-radius: 8px;
+  border: none; background: none; color: var(--text-secondary);
+  cursor: pointer; font-size: 0.875rem; font-weight: 600;
+  transition: all 0.15s; margin-top: 8px;
+}
+.btn-reset:hover { background: var(--muted-bg); color: var(--text-main); }
+.checker-result-col {}
+@media(min-width:960px){ .checker-result-col { position: sticky; top: 80px; align-self: start; } }
+.result-card { border-radius: 16px; border: 2px solid var(--card-border); overflow: hidden; box-shadow: var(--card-shadow); }
+.result-header { padding: 24px; text-align: center; }
+.result-header--incomplete { background: var(--muted-bg); }
+.result-header--go { background: #16A34A; color: white; }
+.result-header--caution { background: #D97706; color: white; }
+.result-header--stop { background: #DC2626; color: white; }
+.result-icon { font-size: 3rem; display: block; margin-bottom: 8px; }
+.result-header h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin: 0; }
+.result-body { padding: 20px; }
+.result-message { text-align: center; margin-bottom: 16px; font-weight: 500; color: var(--text-main); }
+.result-box { background: var(--muted-bg); border-radius: 8px; padding: 14px; margin-bottom: 12px; }
+.result-box-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin: 0 0 6px; }
+.result-fix { font-weight: 600; margin: 0; }
+.result-fix--go { color: var(--brand-green); }
+.result-fix--caution { color: var(--brand-amber); }
+.result-fix--stop { color: var(--brand-danger); }
+.result-fix--incomplete { color: var(--text-secondary); }
+.result-student-note {
+  background: rgba(14,148,136,0.08); border: 1px solid rgba(14,148,136,0.2);
+  border-radius: 8px; padding: 14px; margin-top: 12px;
+}
+.result-student-label { font-size: 0.7rem; font-weight: 700; color: var(--brand-accent); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 6px; }
+.result-student-text { font-size: 0.875rem; color: var(--text-main); margin: 0; }
+/* APPS */
+.apps-controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+@media(min-width:640px){ .apps-controls { flex-direction: row; align-items: center; } }
+.search-wrap { flex: 1; position: relative; }
+.search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; color: var(--text-secondary); pointer-events: none;
+}
+.search-input {
+  width: 100%; padding: 10px 12px 10px 42px;
+  border-radius: 8px; border: 1px solid var(--input-border);
+  background: var(--input-bg); color: var(--text-main);
+  font-size: 0.9rem; outline: none; transition: border-color 0.15s;
+  font-family: var(--font-sans);
+}
+.search-input:focus { border-color: var(--brand-primary); }
+.btn-toggle {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; border-radius: 8px;
+  border: 1px solid var(--card-border); background: var(--card-bg);
+  color: var(--text-main); cursor: pointer;
+  font-size: 0.875rem; font-weight: 600; white-space: nowrap;
+  transition: all 0.15s; font-family: var(--font-sans);
+}
+.btn-toggle:hover { border-color: var(--brand-primary); }
+.btn-toggle--active { background: var(--brand-primary); color: white; border-color: var(--brand-primary); }
+.apps-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media(min-width:640px){ .apps-grid { grid-template-columns: 1fr 1fr; } }
+@media(min-width:960px){ .apps-grid { grid-template-columns: repeat(3,1fr); } }
+.app-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 20px;
+  position: relative; overflow: hidden; transition: all 0.15s;
+}
+.app-card:hover { box-shadow: var(--card-shadow); transform: translateY(-2px); }
+.app-card-stripe { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; }
+.stripe--approved { background: var(--brand-green); }
+.stripe--staff_only { background: var(--brand-accent); }
+.stripe--declined { background: var(--brand-danger); }
+.stripe--on_hold { background: var(--brand-amber); }
+.app-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; padding-left: 10px; gap: 8px; }
+.app-name { font-weight: 700; font-size: 1.05rem; color: var(--text-main); }
+.app-desc { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px; padding-left: 10px; min-height: 40px; }
+.app-meta { background: var(--muted-bg); border-radius: 6px; padding: 10px 12px; font-size: 0.8rem; display: flex; flex-direction: column; gap: 6px; }
+.app-meta-row { display: flex; gap: 8px; align-items: flex-start; color: var(--text-secondary); }
+.app-meta-icon { width: 14px; height: 14px; color: var(--text-secondary); flex-shrink: 0; margin-top: 1px; }
+.badge--approved { background: rgba(22,163,74,0.12); color: var(--brand-green); border: 1px solid rgba(22,163,74,0.2); }
+.badge--staff_only { background: rgba(14,148,136,0.12); color: var(--brand-accent); border: 1px solid rgba(14,148,136,0.2); }
+.badge--declined { background: rgba(220,38,38,0.12); color: var(--brand-danger); border: 1px solid rgba(220,38,38,0.2); }
+.badge--on_hold { background: rgba(217,119,6,0.12); color: var(--brand-amber); border: 1px solid rgba(217,119,6,0.2); }
+.apps-empty { text-align: center; padding: 48px 24px; color: var(--text-secondary); }
+/* GUIDE */
+.guide-wrap { max-width: 768px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.guide-intro-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; }
+.guide-intro-card h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--brand-primary); display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
+.guide-intro-card p { color: var(--text-secondary); line-height: 1.6; margin: 0; }
+.tip-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media(min-width:640px){ .tip-grid { grid-template-columns: repeat(3,1fr); } }
+.tip-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 16px; }
+.tip-header { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.875rem; margin-bottom: 6px; color: var(--text-main); }
+.tip-header svg { width: 18px; height: 18px; flex-shrink: 0; }
+.tip-card p { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.4; margin: 0; }
+.walled-garden-box {
+  background: rgba(14,148,136,0.08); border: 1px solid rgba(14,148,136,0.2);
+  border-radius: 10px; padding: 16px; display: flex; gap: 12px;
+}
+.walled-garden-box svg { color: var(--brand-accent); flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; }
+.walled-garden-box h4 { font-weight: 700; color: var(--brand-accent); font-size: 0.875rem; margin: 0 0 4px; }
+.walled-garden-box p { font-size: 0.875rem; color: var(--text-secondary); margin: 0; }
+.collapsible { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; }
+.collapsible-accent { height: 3px; width: 100%; }
+.collapsible-accent--primary { background: var(--brand-primary); }
+.collapsible-accent--gradient { background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent)); }
+.collapsible-accent--accent { background: var(--brand-accent); }
+.collapsible-accent--amber { background: var(--brand-amber); }
+.collapsible-trigger {
+  width: 100%; padding: 18px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; cursor: pointer; background: none; border: none; text-align: left;
+}
+.trigger-left { display: flex; align-items: center; gap: 10px; }
+.trigger-left svg { width: 20px; height: 20px; flex-shrink: 0; }
+.collapsible-trigger h3 { font-weight: 700; font-size: 1rem; color: var(--text-main); margin: 0; }
+.collapsible-chevron { transition: transform 0.2s; color: var(--text-secondary); flex-shrink: 0; }
+.collapsible.open .collapsible-chevron { transform: rotate(180deg); }
+.collapsible-body { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.collapsible.open .collapsible-body { max-height: 2000px; }
+.collapsible-body-inner { padding-bottom: 20px; padding-top: 4px; }
+.principles-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media(min-width:640px){ .principles-grid { grid-template-columns: 1fr 1fr; } }
+.principle-card { background: var(--muted-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 12px; }
+.principle-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.principle-header svg { width: 16px; height: 16px; flex-shrink: 0; }
+.principle-card h4 { font-weight: 700; font-size: 0.875rem; color: var(--text-main); margin: 0; }
+.principle-card p { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+.considerations-table { display: flex; flex-direction: column; gap: 10px; }
+.consideration-row { display: grid; grid-template-columns: 1fr; gap: 8px; }
+@media(min-width:640px){ .consideration-row { grid-template-columns: 1fr 1fr; } }
+.consideration-practice { background: rgba(26,86,219,0.05); border: 1px solid rgba(26,86,219,0.1); border-radius: 6px; padding: 10px; }
+.consideration-practice .label { font-size: 0.7rem; font-weight: 700; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 4px; }
+.consideration-practice p { font-size: 0.8125rem; color: var(--text-main); line-height: 1.5; margin: 0; }
+.consideration-consider { background: rgba(14,148,136,0.05); border: 1px solid rgba(14,148,136,0.1); border-radius: 6px; padding: 10px; }
+.consideration-consider .label { font-size: 0.7rem; font-weight: 700; color: var(--brand-accent); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 4px; }
+.consideration-consider p { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+.report-steps { display: flex; flex-direction: column; gap: 16px; }
+.report-step { display: flex; gap: 12px; }
+.report-step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.875rem; flex-shrink: 0;
+}
+.report-step-content { flex: 1; padding-top: 2px; }
+.report-step-content strong { font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px; font-size: 0.9rem; }
+.report-step-content p { font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+.report-step-1 .report-step-num { background: rgba(22,163,74,0.15); color: var(--brand-green); }
+.report-step-2 .report-step-num { background: rgba(220,38,38,0.15); color: var(--brand-danger); }
+.report-step-3 .report-step-num { background: rgba(26,86,219,0.15); color: var(--brand-primary); }
+.policy-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.policy-list li { font-size: 0.875rem; color: var(--text-secondary); padding: 6px 0; border-bottom: 1px solid var(--card-border); line-height: 1.5; }
+.policy-list li:last-child { border-bottom: none; }
+/* ASSISTANT */
+.assistant-wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.assistant-header-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+.assistant-header-icon { font-size: 2.5rem; }
+.assistant-header-card h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0 0 4px; }
+.assistant-header-card p { color: var(--text-secondary); margin: 0; font-size: 0.9rem; }
+.assistant-gemini-box {
+  background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.2);
+  border-radius: 10px; padding: 16px; display: flex; gap: 12px;
+}
+.assistant-gemini-box svg { color: var(--brand-amber); flex-shrink: 0; margin-top: 2px; width: 20px; height: 20px; }
+.assistant-gemini-box p { font-size: 0.875rem; color: var(--text-main); margin: 0 0 12px; }
+.btn-gem-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: 8px;
+  background: var(--brand-primary); color: white;
+  text-decoration: none; font-weight: 600; font-size: 0.875rem;
+  transition: opacity 0.15s;
+}
+.btn-gem-link:hover { opacity: 0.85; }
+.faq-search-wrap { position: relative; }
+.faq-list { display: flex; flex-direction: column; gap: 8px; }
+.faq-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; }
+.faq-question {
+  width: 100%; padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; cursor: pointer; background: none; border: none;
+  text-align: left; font-weight: 600; color: var(--text-main);
+  font-size: 0.9rem; font-family: var(--font-sans);
+}
+.faq-chevron { transition: transform 0.2s; color: var(--text-secondary); flex-shrink: 0; }
+.faq-item.open .faq-chevron { transform: rotate(180deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
+.faq-item.open .faq-answer { max-height: 500px; }
+.faq-answer-inner { padding: 0 20px 16px; color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6; }
+/* PDF MODAL */
+.pdf-modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.pdf-modal[hidden] { display: none; }
+.pdf-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
+.pdf-container {
+  position: relative; background: var(--card-bg);
+  border-radius: 16px; width: 100%; max-width: 960px;
+  height: calc(100vh - 80px); max-height: 800px;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+}
+.pdf-header {
+  padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--card-border);
+}
+.pdf-header h3 { font-weight: 700; margin: 0; color: var(--text-main); }
+.btn-close-pdf {
+  width: 36px; height: 36px; border-radius: 8px;
+  border: 1px solid var(--card-border); background: var(--muted-bg);
+  cursor: pointer; font-size: 1rem; color: var(--text-main);
+  display: flex; align-items: center; justify-content: center;
+}
+.pdf-frame { flex: 1; border: none; width: 100%; }
+/* FOOTER */
+.site-footer {
+  text-align: center; padding: 32px 16px;
+  color: var(--text-secondary); font-size: 0.8125rem;
+  border-top: 1px solid var(--card-border); margin-top: 48px;
+}
+/* UTILS */
+.view { display: block; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-bar"></div>
+  <div class="header-inner">
+    <button class="header-brand" id="btn-home" aria-label="Go to dashboard">
+      <div class="brand-avatar">S</div>
+      <div class="brand-text">
+        <span class="brand-title">SSIS AI Hub</span>
+        <span class="brand-subtitle">Saigon South International School</span>
+      </div>
+    </button>
+    <div class="header-actions">
+      <button id="btn-back" class="btn-back" hidden>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="19 12 5 12"></polyline><polyline points="12 5 5 12 12 19"></polyline></svg>
+        Back to Dashboard
+      </button>
+      <button id="btn-theme" class="btn-theme" aria-label="Toggle theme">☀️</button>
+    </div>
+  </div>
+</header>
+
+<main class="main-content" id="main-content">
+
+<!-- HOME VIEW -->
+<div id="view-home" class="view">
+  <div class="home-hero">
+    <div class="home-avatar">S</div>
+    <h2 class="home-title">Welcome to SSIS AI Hub</h2>
+    <p class="home-desc">Your central resource for safe, ethical, and effective Artificial Intelligence use at Saigon South International School. Select a tool below to get started.</p>
+    <span class="badge badge-staff">Staff Version</span>
+  </div>
+  <div class="tiles-grid">
+    <button class="tile" data-view="checker">
+      <div class="tile-icon tile-icon--primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a1 1 0 0 1 1 1v1H8V3a1 1 0 0 1 1-1z"/><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="15" y2="16"/><line x1="9" y1="8" x2="11" y2="8"/></svg>
+      </div>
+      <h3 class="tile-title">Check Your Task</h3>
+      <p class="tile-desc">Not sure if your AI use is allowed? Run a quick check against school policy.</p>
+      <span class="tile-cta tile-cta--primary">Start Check →</span>
+    </button>
+
+    <button class="tile" data-view="apps">
+      <div class="tile-icon tile-icon--accent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </div>
+      <h3 class="tile-title">App Library</h3>
+      <p class="tile-desc">Browse Approved, Staff-Only, and Declined tools like Perplexity, Gemini, and more.</p>
+      <span class="tile-cta tile-cta--accent">Browse Apps →</span>
+    </button>
+
+    <button class="tile" data-view="guide">
+      <div class="tile-icon tile-icon--amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </div>
+      <h3 class="tile-title">Staff Guide</h3>
+      <p class="tile-desc">Best practices for report writing, lesson planning, and administrative tasks.</p>
+      <span class="tile-cta tile-cta--amber">Read Guide →</span>
+    </button>
+
+    <button class="tile" data-view="assistant">
+      <div class="tile-icon tile-icon--purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 3l.75 2.25L22 6l-2.25.75L19 9l-.75-2.25L16 6l2.25-.75z"/></svg>
+      </div>
+      <h3 class="tile-title">AI Assistant</h3>
+      <p class="tile-desc">Ask questions about the policy in plain English to get instant answers.</p>
+      <span class="tile-cta tile-cta--purple">Chat Now →</span>
+    </button>
+
+    <a class="tile" href="/gems.html">
+      <div class="tile-icon tile-icon--green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3L8 9l4 13 4-13-3-6"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+      </div>
+      <h3 class="tile-title">Gems Library</h3>
+      <p class="tile-desc">Browse pre-made EduGems and SSIS custom prompts for Google Gemini.</p>
+      <span class="tile-cta tile-cta--green">Browse Gems →</span>
+    </a>
+
+    <button class="tile tile--pdf" id="btn-open-pdf">
+      <div class="tile-top-row">
+        <div class="tile-icon tile-icon--danger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <span class="badge badge-pdf">PDF Document</span>
+      </div>
+      <h3 class="tile-title">Full AI Policy</h3>
+      <p class="tile-desc">View the complete, original PDF document of the "Acceptable Use of Artificial Intelligence" policy.</p>
+      <span class="tile-cta tile-cta--danger">Open PDF →</span>
+    </button>
+  </div>
+</div>
+<!-- CHECKER VIEW -->
+<div id="view-checker" class="view" hidden>
+  <div class="checker-layout">
+    <div class="checker-steps" id="checker-steps">
+      <!-- Steps rendered by JS -->
+    </div>
+    <div class="checker-result-col">
+      <div class="result-card" id="result-card">
+        <div class="result-header result-header--incomplete" id="result-header">
+          <span class="result-icon" id="result-icon">📋</span>
+          <h2 id="result-title">Complete All Steps</h2>
+        </div>
+        <div class="result-body">
+          <p class="result-message" id="result-message">Answer each question to see your AI usage assessment.</p>
+          <div class="result-box">
+            <p class="result-box-label" id="result-box-label">Progress</p>
+            <p class="result-fix result-fix--incomplete" id="result-fix">Step 1 of 5</p>
+          </div>
+          <div class="result-student-note" id="result-student-note" hidden>
+            <p class="result-student-label">Student Access</p>
+            <p class="result-student-text" id="result-student-text"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APPS VIEW -->
+<div id="view-apps" class="view" hidden>
+  <div class="apps-controls">
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="app-search" class="search-input" placeholder="Search apps (e.g., Perplexity, Canva)...">
+    </div>
+    <button id="btn-toggle-declined" class="btn-toggle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      Show Declined/Hold Apps
+    </button>
+  </div>
+  <div class="apps-grid" id="apps-grid"></div>
+  <div id="apps-empty" class="apps-empty" hidden>
+    <p>No apps found matching your search.</p>
+  </div>
+</div>
+
+<!-- GUIDE VIEW -->
+<div id="view-guide" class="view" hidden>
+  <div class="guide-wrap">
+    <div class="guide-intro-card">
+      <h2>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        SSIS Staff AI Guide
+      </h2>
+      <p>This guide supports Saigon South International School staff in using AI tools effectively, ethically, and in compliance with our commitment to student wellbeing, academic integrity, and data privacy.</p>
+      <p style="margin-top:10px;font-style:italic;color:var(--brand-primary);font-size:0.875rem">Grounded in our values: Progress, Vision, Integrity, and Love.</p>
+    </div>
+
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="tip-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          The 80/20 Rule
+        </div>
+        <p>Let AI draft 80%, you refine the final 20%.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Data Diet
+        </div>
+        <p>Never type student names, IDs, or sensitive info into AI.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Trust but Verify
+        </div>
+        <p>AI hallucinates. Always check facts and links.</p>
+      </div>
+    </div>
+
+    <div class="walled-garden-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div>
+        <h4>The SSIS "Walled Garden"</h4>
+        <p>Use Google Gemini with your @ssis.edu.vn account for sensitive tasks. Student data is safer here than in public tools.</p>
+      </div>
+    </div>
+
+    <div class="collapsible open">
+      <div class="collapsible-accent collapsible-accent--gradient"></div>
+      <button class="collapsible-trigger">
+        <div class="trigger-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <h3>Six Guiding Principles</h3>
+        </div>
+        <svg class="collapsible-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-body-inner">
+          <div class="principles-grid">
+            <div class="principle-card">
+              <div class="principle-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <h4>Teaching &amp; Learning</h4>
+              </div>
+              <p>AI should enhance and support learning outcomes, not replace genuine intellectual engagement.</p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                <h4>Human &amp; Social Wellbeing</h4>
+              </div>
+              <p>Consider the impact of AI on students' emotional wellbeing, social development, and sense of identity.</p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <h4>Transparency</h4>
+              </div>
+              <p>Be open about when and how AI is used. Acknowledge AI contributions in your work and model this for students.</p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                <h4>Fairness</h4>
+              </div>
+              <p>Ensure AI use does not create inequitable outcomes. Be aware of potential bias in AI-generated content.</p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <h4>Accountability</h4>
+              </div>
+              <p>You are responsible for AI-assisted work you produce or share. Human oversight is always required.</p>
+            </div>
+            <div class="principle-card">
+              <div class="principle-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <h4>Security, Safety &amp; Sustainability</h4>
+              </div>
+              <p>Protect data, use approved tools, and consider the long-term impact of AI on our school community.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-accent" style="height:3px;background:var(--brand-primary)"></div>
+      <button class="collapsible-trigger">
+        <div class="trigger-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <h3>Staff Considerations</h3>
+        </div>
+        <svg class="collapsible-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-body-inner">
+          <div class="considerations-table">
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Use AI to generate ideas, support lesson planning, and create resources, applying professional judgement to tailor outputs to students' needs.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Ensure AI complements your professional judgement; review and adapt content for your students rather than relying on AI alone.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Employ AI to support diverse learners, ensuring content is accurate, culturally responsive, and age-appropriate.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Use AI thoughtfully to provide content suited to your learners' needs, avoiding generic or biased material.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Use AI to create quizzes, practice activities, or summarise information, ensuring outputs align with curriculum goals.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Check that AI-generated activities support learning objectives and maintain academic honesty and integrity.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Streamline admin with AI — draft documents, organise information, analyse data, develop policies, and make predictions.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Keep oversight on AI-assisted admin tasks, and handle sensitive information personally.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Approach all AI-generated content thoughtfully, checking for accuracy, relevance, appropriateness, and potential bias.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Review AI outputs carefully to ensure they are accurate, suitable, without bias and relevant before using them.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Be open with students, colleagues, and whānau about how AI is being used to support learning.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Clearly communicate when and how AI has been used, respect copyright, and ensure data complies with privacy requirements. Avoid presenting AI-generated material as entirely your own.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-accent" style="height:3px;background:var(--brand-accent)"></div>
+      <button class="collapsible-trigger">
+        <div class="trigger-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <h3>Student Considerations</h3>
+        </div>
+        <svg class="collapsible-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-body-inner">
+          <div class="considerations-table">
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Use AI to brainstorm ideas, gather explanations, or explore new perspectives, while ensuring your own thinking leads the way.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Be cautious not to let AI dominate your ideas. Always adapt and personalise suggestions so they sound like you.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Let AI help you practise or understand concepts, but make sure your final work is genuinely your own.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Relying too heavily on AI can reduce your independent thinking skills. Avoid using it for shortcuts.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Draw on AI to get feedback, examples, or practice activities suited to your needs.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>AI can sometimes generate inaccurate, biased, or inappropriate content. Double-check information.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Use AI to organise notes, summarise information, or create practice questions.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Overuse of AI for organisation or summaries can stop you from developing your own study habits. Use it as a scaffold, not a crutch.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Evaluate AI outputs carefully. Check for accuracy, relevance, and fairness.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>AI may give confident but wrong answers. Always cross-check with reliable sources.</p>
+              </div>
+            </div>
+            <div class="consideration-row">
+              <div class="consideration-practice">
+                <p class="label">Practice</p>
+                <p>Acknowledge when and how AI has supported your work, and never present AI-generated work as solely your own.</p>
+              </div>
+              <div class="consideration-consider">
+                <p class="label">Consider</p>
+                <p>Use AI ethically, respect copyright and data privacy, and clearly acknowledge its role.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-accent" style="height:3px;background:var(--brand-amber)"></div>
+      <button class="collapsible-trigger">
+        <div class="trigger-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <h3>Report Writing &amp; Admin Tasks</h3>
+        </div>
+        <svg class="collapsible-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-body-inner">
+          <div class="report-steps">
+            <div class="report-step report-step-1">
+              <div class="report-step-num">1</div>
+              <div class="report-step-content">
+                <strong>Drafting, Not Doing</strong>
+                <p>Use AI to draft comment banks or rephrase feedback, but never copy-paste directly without personalising.</p>
+              </div>
+            </div>
+            <div class="report-step report-step-2">
+              <div class="report-step-num">2</div>
+              <div class="report-step-content">
+                <strong>Anonymise Everything</strong>
+                <p>Never enter student names or IDs. Use placeholders like [Student A].</p>
+              </div>
+            </div>
+            <div class="report-step report-step-3">
+              <div class="report-step-num">3</div>
+              <div class="report-step-content">
+                <strong>Tone &amp; Authenticity</strong>
+                <p>Maintain the "SSIS Voice" — supportive, specific, forward-looking.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-accent" style="height:3px;background:var(--card-border)"></div>
+      <button class="collapsible-trigger">
+        <div class="trigger-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <h3>Associated Policies &amp; Documents</h3>
+        </div>
+        <svg class="collapsible-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="collapsible-body">
+        <div class="collapsible-body-inner">
+          <ul class="policy-list">
+            <li>SSIS Reviewed and Approved AI Tools</li>
+            <li>NZ Ministry of Education guidelines on AI ethics in education (NCEA/NZQA)</li>
+            <li>Australian Framework for Generative AI in Schools (2023)</li>
+            <li>IB Academic Integrity Policy: AI tools guidance (Updated 2025)</li>
+            <li>Saigon South International School Academic Integrity Procedures (2025)</li>
+            <li>NZ Privacy Act 2020</li>
+            <li>NZ Copyright Act 1994</li>
+            <li>eSafety Commissioner digital safety recommendations</li>
+            <li>DTTA AI Framework (2025)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ASSISTANT VIEW -->
+<div id="view-assistant" class="view" hidden>
+  <div class="assistant-wrap">
+    <div class="assistant-header-card">
+      <div class="assistant-header-icon">✨</div>
+      <div>
+        <h2>Policy &amp; Tool Finder</h2>
+        <p>Quick answers to common questions about AI policy at SSIS.</p>
+      </div>
+    </div>
+
+    <div class="assistant-gemini-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>
+        <p><strong>Live AI chat</strong> requires the school's Google Gemini walled garden. For live AI assistance, use the SSIS Email &amp; Communication Gem below.</p>
+        <a href="https://gemini.google.com/gem/1doGs5BaeEh3Upa7noEAj0cFcvYvSv6nG" target="_blank" rel="noopener noreferrer" class="btn-gem-link">
+          Open SSIS Email &amp; Communication Gem →
+        </a>
+      </div>
+    </div>
+
+    <div class="faq-search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="faq-search" class="search-input" placeholder="Search FAQs (e.g. ChatGPT, student data)...">
+    </div>
+
+    <div class="faq-list" id="faq-list">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- PDF MODAL -->
+<div id="pdf-modal" class="pdf-modal" hidden>
+  <div class="pdf-backdrop"></div>
+  <div class="pdf-container">
+    <div class="pdf-header">
+      <h3>Full AI Policy</h3>
+      <button id="btn-close-pdf" class="btn-close-pdf" aria-label="Close">✕</button>
+    </div>
+    <iframe src="/policy.pdf" class="pdf-frame" title="AI Policy PDF"></iframe>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>Saigon South International School &copy; 2025. Excellence, Integrity, Compassion.</p>
+</footer>
+<script>
+// ============================================================
+// 1. THEME TOGGLE
+// ============================================================
+const DARK_KEY = 'ssis-ai-hub-dark';
+const LIGHT_KEY = 'ssis-ai-hub-light';
+const themeBtn = document.getElementById('btn-theme');
+
+function getCurrentTheme() {
+  return document.documentElement.getAttribute('data-theme') || 'light';
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const isDark = theme === 'dark';
+  const tc = document.querySelector('meta[name="theme-color"]');
+  const sb = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+  if (tc) tc.setAttribute('content', isDark ? '#0F172A' : '#EEF2FA');
+  if (sb) sb.setAttribute('content', isDark ? 'black-translucent' : 'default');
+  themeBtn.textContent = isDark ? '🌙' : '☀️';
+}
+
+themeBtn.addEventListener('click', function() {
+  const isDark = getCurrentTheme() === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  localStorage.setItem(next === 'dark' ? DARK_KEY : LIGHT_KEY, 'true');
+  localStorage.removeItem(next === 'dark' ? LIGHT_KEY : DARK_KEY);
+  applyTheme(next);
+});
+
+window.addEventListener('pageshow', function() {
+  applyTheme(getCurrentTheme());
+});
+
+applyTheme(localStorage.getItem(DARK_KEY) ? 'dark' : 'light');
+
+// ============================================================
+// 2. VIEW NAVIGATION
+// ============================================================
+const VIEWS = ['home', 'checker', 'apps', 'guide', 'assistant'];
+const backBtn = document.getElementById('btn-back');
+const homeBtn = document.getElementById('btn-home');
+
+function showView(name) {
+  VIEWS.forEach(function(v) {
+    var el = document.getElementById('view-' + v);
+    if (el) el.hidden = v !== name;
+  });
+  backBtn.hidden = name === 'home';
+  window.scrollTo(0, 0);
+}
+
+document.querySelectorAll('.tile[data-view]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    showView(this.dataset.view);
+  });
+});
+
+homeBtn.addEventListener('click', function() { showView('home'); });
+backBtn.addEventListener('click', function() { showView('home'); });
+
+// ============================================================
+// 3. PDF MODAL
+// ============================================================
+function openPdf() {
+  document.getElementById('pdf-modal').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closePdf() {
+  document.getElementById('pdf-modal').hidden = true;
+  document.body.style.overflow = '';
+}
+document.getElementById('btn-open-pdf').addEventListener('click', openPdf);
+document.getElementById('btn-close-pdf').addEventListener('click', closePdf);
+document.querySelector('.pdf-backdrop').addEventListener('click', closePdf);
+
+// ============================================================
+// 4. COLLAPSIBLES (Staff Guide)
+// ============================================================
+document.querySelectorAll('.collapsible-trigger').forEach(function(trigger) {
+  trigger.addEventListener('click', function() {
+    var col = this.closest('.collapsible');
+    col.classList.toggle('open');
+  });
+});
+
+// ============================================================
+// 5. OFFLINE FONT FALLBACK
+// ============================================================
+function updateOfflineFont() {
+  document.documentElement.classList.toggle('offline-font', !navigator.onLine);
+}
+window.addEventListener('online', updateOfflineFont);
+window.addEventListener('offline', updateOfflineFont);
+updateOfflineFont();
+
+// ============================================================
+// 6. TASK CHECKER
+// ============================================================
+var checkerState = {
+  currentStep: 1,
+  purpose: null,
+  tool: null,
+  hasSensitiveData: null,
+  willShare: null,
+  willAcknowledge: null
+};
+
+var PURPOSE_OPTIONS = [
+  { id: 'research', label: 'Research / Finding Information', emoji: '🔍',
+    reminder: 'Use tools with citations (Perplexity, JSTOR AI, Consensus). Cross-check AI findings with trusted sources.' },
+  { id: 'communications', label: 'Communications / Report Writing', emoji: '✉️',
+    reminder: 'Try our SSIS Email & Communication Gem! Remember: Never include student names or sensitive data in AI prompts.',
+    gemLink: 'https://gemini.google.com/gem/1doGs5BaeEh3Upa7noEAj0cFcvYvSv6nG' },
+  { id: 'lesson_planning', label: 'Lesson Planning / Resources', emoji: '📚',
+    reminder: 'Great tools: MagicSchool AI, Diffit, Brisk Teaching. Avoid copyrighted material or IBO IP in prompts.' },
+  { id: 'assessment', label: 'Assessment Creation', emoji: '📝',
+    reminder: 'Use approved tools only. Review all AI-generated content before sharing with students.' },
+  { id: 'admin', label: 'Administrative Tasks', emoji: '🗂️',
+    reminder: 'For tasks with student data, use Google Gemini with your @ssis.edu.vn account only.' },
+  { id: 'content', label: 'Creating Content (Images/Presentations)', emoji: '🎨',
+    reminder: 'Use Gemini or Canva AI Tools. AI-generated images should not be presented as original student work.' }
+];
+
+var TOOL_OPTIONS = [
+  { id: 'gemini', name: 'Google Gemini (SSIS Account)', desc: "Google's AI assistant — our 'Walled Garden' for sensitive data", access: 'staff_only', safe: true },
+  { id: 'notebooklm', name: 'NotebookLM', desc: "Google's AI notebook for document analysis — part of the Google Education Walled Garden", access: 'staff_only', safe: true },
+  { id: 'magicschool', name: 'MagicSchool AI', desc: '40+ AI tools designed specifically for educators', access: 'staff_only', safe: false },
+  { id: 'brisk', name: 'Brisk Teaching', desc: 'Chrome extension for feedback, lesson plans & differentiation', access: 'staff_only', safe: false },
+  { id: 'diffit', name: 'Diffit', desc: 'Creates differentiated reading materials at any level', access: 'staff_only', safe: false },
+  { id: 'massolit', name: 'Massolit AI', desc: 'Academic video lectures with AI discussion tools', access: 'staff_only', safe: false },
+  { id: 'canva', name: 'Canva AI Tools', desc: 'AI image generation and design assistance', access: 'staff_only', safe: false },
+  { id: 'perplexity', name: 'Perplexity.ai', desc: 'AI search engine with citations and source links', access: 'staff_students', safe: false },
+  { id: 'jstor', name: 'JSTOR AI', desc: 'Academic research with AI-powered article summaries', access: 'staff_students', safe: false },
+  { id: 'statista', name: 'Statista AI', desc: 'Statistics and data research with AI assistance', access: 'staff_students', safe: false },
+  { id: 'elicit', name: 'Elicit.org', desc: 'AI research assistant for finding academic papers', access: 'staff_students', safe: false },
+  { id: 'consensus', name: 'Consensus', desc: 'AI search engine for scientific research papers', access: 'staff_students', safe: false },
+  { id: 'openmaps', name: 'Open Knowledge Maps', desc: 'Visual discovery tool for academic research', access: 'staff_students', safe: false },
+  { id: 'unpaywall', name: 'UnPayWallMe', desc: 'Finds free legal versions of academic papers', access: 'staff_students', safe: false },
+  { id: 'chatgpt', name: 'ChatGPT / Personal AI', desc: 'Not approved for use at Saigon South International School', access: 'blocked', safe: false }
+];
+
+function getToolById(id) {
+  return TOOL_OPTIONS.find(function(t) { return t.id === id; });
+}
+
+function getStatus() {
+  var s = checkerState;
+  var complete = s.purpose && s.tool && s.hasSensitiveData !== null && s.willShare !== null && s.willAcknowledge !== null;
+  if (!complete) {
+    return {
+      level: 'incomplete',
+      title: 'Complete All Steps',
+      message: 'Answer each question to see your AI usage assessment.',
+      fix: 'Step ' + s.currentStep + ' of 5',
+      student: null
+    };
+  }
+  var toolObj = getToolById(s.tool);
+  if (s.tool === 'chatgpt') {
+    return {
+      level: 'stop',
+      title: 'Tool Not Approved',
+      message: 'ChatGPT and personal AI accounts are NOT approved for use at Saigon South International School.',
+      fix: 'Use Perplexity.ai for research, or Google Gemini (staff with SSIS account) for sensitive tasks.',
+      student: 'Students cannot use ChatGPT. Recommend Perplexity.ai for research.'
+    };
+  }
+  if (s.hasSensitiveData === true && toolObj && !toolObj.safe) {
+    return {
+      level: 'stop',
+      title: 'Privacy Risk',
+      message: "Sensitive data (student names, IDs, HR info) must NOT be entered into this tool.",
+      fix: "Use Google Gemini with your @ssis.edu.vn account — our 'Walled Garden' for sensitive data.",
+      student: toolObj.access === 'staff_students'
+        ? 'Students can use this tool but NEVER with personal data.'
+        : 'This tool is staff-only.'
+    };
+  }
+  if (s.willAcknowledge === false) {
+    return {
+      level: 'caution',
+      title: 'Acknowledge AI Use',
+      message: 'Best practice is to acknowledge when AI has assisted your work.',
+      fix: 'Consider adding a note about AI assistance where appropriate.',
+      student: toolObj && toolObj.access === 'staff_students'
+        ? 'Students must cite AI use in NoodleTools using the shareable URL.'
+        : 'This tool is for staff use only.'
+    };
+  }
+  return {
+    level: 'go',
+    title: 'Approved for Use',
+    message: 'Your planned AI usage aligns with Saigon South International School policy.',
+    fix: 'Proceed with creativity and integrity. Remember to review all AI outputs.',
+    student: toolObj && toolObj.access === 'staff_students'
+      ? 'Students can also use this tool with appropriate guidance.'
+      : 'Remember: This tool is staff-only. Students cannot access it.'
+  };
+}
+
+function updateResult() {
+  var status = getStatus();
+  var header = document.getElementById('result-header');
+  var icon = document.getElementById('result-icon');
+  var title = document.getElementById('result-title');
+  var message = document.getElementById('result-message');
+  var boxLabel = document.getElementById('result-box-label');
+  var fix = document.getElementById('result-fix');
+  var studentNote = document.getElementById('result-student-note');
+  var studentText = document.getElementById('result-student-text');
+
+  header.className = 'result-header result-header--' + status.level;
+  fix.className = 'result-fix result-fix--' + status.level;
+
+  var icons = { incomplete: '📋', go: '✅', caution: '⚠️', stop: '🚫' };
+  icon.textContent = icons[status.level] || '📋';
+  title.textContent = status.title;
+  message.textContent = status.message;
+
+  var labels = { incomplete: 'Progress', go: 'Guidance', caution: 'Recommendation', stop: 'Alternative' };
+  boxLabel.textContent = labels[status.level] || 'Info';
+  fix.textContent = status.fix;
+
+  if (status.student) {
+    studentNote.hidden = false;
+    studentText.textContent = status.student;
+  } else {
+    studentNote.hidden = true;
+  }
+}
+
+function makeChevronSVG() {
+  return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+}
+
+function renderChecker() {
+  var container = document.getElementById('checker-steps');
+  var html = '';
+
+  // Step 1: Purpose
+  html += '<div class="step-card" id="step-1">';
+  html += '<div class="step-header">';
+  html += '<span class="step-badge step-badge--active" id="badge-1">1</span>';
+  html += '<h3 class="step-title">What are you using AI for?</h3>';
+  html += '<span class="step-selection" id="step1-selection" hidden></span>';
+  html += '</div>';
+  html += '<div class="step-body" id="step1-body">';
+  html += '<div class="purpose-grid">';
+  PURPOSE_OPTIONS.forEach(function(p) {
+    html += '<button class="purpose-btn" data-purpose="' + p.id + '" onclick="selectPurpose(\''+p.id+'\')">';
+    html += '<div class="purpose-icon"><span style="font-size:1.1rem">' + p.emoji + '</span></div>';
+    html += '<span>' + p.label + '</span>';
+    html += '</button>';
+  });
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="step-reminder" id="step1-reminder" hidden>';
+  html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  html += '<div><p id="step1-reminder-text"></p><a id="step1-gem-link" href="#" target="_blank" hidden>Try the SSIS Email &amp; Communication Gem →</a></div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Step 2: Tool
+  html += '<div class="step-card" id="step-2" hidden>';
+  html += '<div class="step-header">';
+  html += '<span class="step-badge step-badge--active" id="badge-2">2</span>';
+  html += '<h3 class="step-title">Which tool are you using?</h3>';
+  html += '<span class="step-selection" id="step2-selection" hidden></span>';
+  html += '</div>';
+  html += '<div class="step-body" id="step2-body">';
+  html += '<div class="tool-list">';
+  TOOL_OPTIONS.forEach(function(t) {
+    var isBlocked = t.access === 'blocked';
+    var badgeClass = t.access === 'staff_only' ? 'badge--staff' : (t.access === 'staff_students' ? 'badge--both' : 'badge--blocked');
+    var badgeText = t.access === 'staff_only' ? 'Staff Only' : (t.access === 'staff_students' ? 'Staff + Students' : 'Not Approved');
+    html += '<button class="tool-btn' + (isBlocked ? ' tool-btn--blocked' : '') + '" onclick="selectTool(\'' + t.id + '\')">';
+    html += '<div><span class="tool-name">' + t.name + '</span><span class="tool-desc">' + t.desc + '</span></div>';
+    html += '<span class="tool-access-badge badge ' + badgeClass + '">' + badgeText + '</span>';
+    html += '</button>';
+  });
+  html += '</div></div></div>';
+
+  // Step 3: Sensitive Data
+  html += '<div class="step-card" id="step-3" hidden>';
+  html += '<div class="step-header">';
+  html += '<span class="step-badge step-badge--active" id="badge-3">3</span>';
+  html += '<h3 class="step-title">Will your prompt contain sensitive data?</h3>';
+  html += '<span class="step-selection" id="step3-selection" hidden></span>';
+  html += '</div>';
+  html += '<div class="step-body" id="step3-body">';
+  html += '<div class="yesno-row">';
+  html += '<button class="yesno-btn yesno-btn--yes-amber" onclick="selectSensitive(true)">';
+  html += '<strong>Yes</strong><span>Names, IDs, grades, HR or medical info</span></button>';
+  html += '<button class="yesno-btn yesno-btn--default" onclick="selectSensitive(false)">';
+  html += '<strong>No</strong><span>General tasks, no personal data</span></button>';
+  html += '</div></div></div>';
+
+  // Step 4: Sharing
+  html += '<div class="step-card" id="step-4" hidden>';
+  html += '<div class="step-header">';
+  html += '<span class="step-badge step-badge--active" id="badge-4">4</span>';
+  html += '<h3 class="step-title">Will you share this with students or parents?</h3>';
+  html += '<span class="step-selection" id="step4-selection" hidden></span>';
+  html += '</div>';
+  html += '<div class="step-body" id="step4-body">';
+  html += '<div class="yesno-row">';
+  html += '<button class="yesno-btn yesno-btn--default" onclick="selectSharing(true)">';
+  html += '<strong>Yes</strong><span>Will be seen by students or parents</span></button>';
+  html += '<button class="yesno-btn yesno-btn--default" onclick="selectSharing(false)">';
+  html += '<strong>No</strong><span>Internal use or personal reference only</span></button>';
+  html += '</div></div></div>';
+
+  // Step 5: Acknowledge
+  html += '<div class="step-card" id="step-5" hidden>';
+  html += '<div class="step-header">';
+  html += '<span class="step-badge step-badge--active" id="badge-5">5</span>';
+  html += '<h3 class="step-title">Will you acknowledge the AI assistance?</h3>';
+  html += '<span class="step-selection" id="step5-selection" hidden></span>';
+  html += '</div>';
+  html += '<div class="step-body" id="step5-body">';
+  html += '<div class="yesno-row">';
+  html += '<button class="yesno-btn yesno-btn--yes-green" onclick="selectAcknowledge(true)">';
+  html += '<strong>Yes</strong><span>I will note AI assistance was used</span></button>';
+  html += '<button class="yesno-btn yesno-btn--default" onclick="selectAcknowledge(false)">';
+  html += '<strong>No / Not applicable</strong><span>No acknowledgement planned</span></button>';
+  html += '</div></div></div>';
+
+  html += '<button id="btn-reset" class="btn-reset" hidden onclick="resetChecker()">↺ Start Over</button>';
+
+  container.innerHTML = html;
+  updateResult();
+}
+
+function selectPurpose(id) {
+  var p = PURPOSE_OPTIONS.find(function(x) { return x.id === id; });
+  if (!p) return;
+  checkerState.purpose = id;
+  checkerState.currentStep = 2;
+
+  // Update step 1 display
+  document.getElementById('step1-body').hidden = true;
+  var sel = document.getElementById('step1-selection');
+  sel.textContent = p.label;
+  sel.hidden = false;
+  document.getElementById('badge-1').className = 'step-badge step-badge--done';
+
+  // Show reminder
+  var reminder = document.getElementById('step1-reminder');
+  var reminderText = document.getElementById('step1-reminder-text');
+  var gemLink = document.getElementById('step1-gem-link');
+  reminder.hidden = false;
+  reminderText.textContent = p.reminder;
+  if (p.gemLink) {
+    gemLink.hidden = false;
+    gemLink.href = p.gemLink;
+  } else {
+    gemLink.hidden = true;
+  }
+
+  // Show step 2
+  document.getElementById('step-2').hidden = false;
+  updateResult();
+}
+
+function selectTool(id) {
+  var t = getToolById(id);
+  if (!t) return;
+  checkerState.tool = id;
+  checkerState.currentStep = 3;
+
+  document.getElementById('step2-body').hidden = true;
+  var sel = document.getElementById('step2-selection');
+  sel.textContent = t.name;
+  sel.hidden = false;
+  document.getElementById('badge-2').className = 'step-badge step-badge--done';
+
+  document.getElementById('step-3').hidden = false;
+  updateResult();
+}
+
+function selectSensitive(val) {
+  checkerState.hasSensitiveData = val;
+  checkerState.currentStep = 4;
+
+  document.getElementById('step3-body').hidden = true;
+  var sel = document.getElementById('step3-selection');
+  sel.textContent = val ? 'Yes — contains sensitive data' : 'No sensitive data';
+  sel.hidden = false;
+  document.getElementById('badge-3').className = 'step-badge step-badge--done';
+
+  document.getElementById('step-4').hidden = false;
+  updateResult();
+}
+
+function selectSharing(val) {
+  checkerState.willShare = val;
+  checkerState.currentStep = 5;
+
+  document.getElementById('step4-body').hidden = true;
+  var sel = document.getElementById('step4-selection');
+  sel.textContent = val ? 'Yes — will share with students/parents' : 'No — internal only';
+  sel.hidden = false;
+  document.getElementById('badge-4').className = 'step-badge step-badge--done';
+
+  document.getElementById('step-5').hidden = false;
+  updateResult();
+}
+
+function selectAcknowledge(val) {
+  checkerState.willAcknowledge = val;
+  checkerState.currentStep = 5;
+
+  document.getElementById('step5-body').hidden = true;
+  var sel = document.getElementById('step5-selection');
+  sel.textContent = val ? 'Yes — will acknowledge AI use' : 'No acknowledgement planned';
+  sel.hidden = false;
+  document.getElementById('badge-5').className = 'step-badge step-badge--done';
+
+  document.getElementById('btn-reset').hidden = false;
+  updateResult();
+}
+
+function resetChecker() {
+  checkerState = { currentStep: 1, purpose: null, tool: null, hasSensitiveData: null, willShare: null, willAcknowledge: null };
+  renderChecker();
+}
+
+
+// ============================================================
+// 7. APP LIBRARY
+// ============================================================
+var APPS_DATA = [
+  {
+    id: 'perplexity', name: 'Perplexity.ai', category: 'approved',
+    desc: 'AI-powered search engine that provides cited, sourced answers. Great for research.',
+    accessDetail: 'All staff and students (with supervision for juniors)',
+    note: 'Use for research tasks. Always verify sources provided.'
+  },
+  {
+    id: 'gemini', name: 'Google Gemini', category: 'staff_only',
+    desc: "Google's AI assistant, integrated with Workspace. Our 'walled garden' for sensitive tasks.",
+    accessDetail: 'Staff only (must use SSIS account)',
+    note: 'Only use with your @ssis.edu.vn account. Approved for admin tasks with student data.'
+  },
+  {
+    id: 'brisk', name: 'Brisk Teaching', category: 'approved',
+    desc: 'AI-powered teaching assistant for creating resources, feedback, and lesson materials.',
+    accessDetail: 'All staff',
+    note: 'Excellent for quick quiz generation and differentiated worksheets.'
+  },
+  {
+    id: 'notebooklm', name: 'NotebookLM', category: 'approved',
+    desc: "Google's AI notebook for document analysis \u2014 part of our Google Education workspace.",
+    accessDetail: 'All staff and senior students',
+    note: 'Safe for sensitive data. Great for document analysis. Upload PDFs and get summaries.'
+  },
+  {
+    id: 'magicschool', name: 'MagicSchool AI', category: 'approved',
+    desc: 'Suite of AI tools designed specifically for educators.',
+    accessDetail: 'All staff',
+    note: 'Use for lesson planning, rubric creation, and assessment design.'
+  },
+  {
+    id: 'jstor', name: 'JSTOR AI', category: 'approved',
+    desc: "AI-assisted academic research through JSTOR's database.",
+    accessDetail: 'Senior students and staff',
+    note: 'For academic research. Citations are built-in.'
+  },
+  {
+    id: 'chatgpt', name: 'ChatGPT', category: 'declined',
+    desc: "OpenAI's chatbot is NOT approved due to data privacy concerns.",
+    accessDetail: 'Not approved for any users',
+    note: 'BLOCKED. Use Perplexity or Gemini (staff) instead.'
+  },
+  {
+    id: 'personal-gmail', name: 'Personal Gmail AI', category: 'declined',
+    desc: 'Using AI with personal Google accounts is not permitted.',
+    accessDetail: 'Not approved',
+    note: 'Only school accounts are approved. Never use personal AI accounts for school work.'
+  },
+  {
+    id: 'claude', name: 'Claude', category: 'on_hold',
+    desc: "Anthropic's AI assistant is currently being evaluated.",
+    accessDetail: 'Under review',
+    note: 'Pending approval. Do not use until officially approved.'
+  },
+  {
+    id: 'canva', name: 'Canva AI', category: 'approved',
+    desc: 'AI features within Canva for design and content creation.',
+    accessDetail: 'All staff and students',
+    note: 'Safe to use for design tasks. Part of our Canva for Education license.'
+  }
+];
+
+var showDeclined = false;
+
+function getStatusBadgeHTML(category) {
+  var map = {
+    staff_only: { cls: 'badge--staff_only', text: 'STAFF ONLY' },
+    staff_students: { cls: 'badge--approved', text: 'APPROVED' },
+    approved: { cls: 'badge--approved', text: 'APPROVED' },
+    declined: { cls: 'badge--declined', text: 'DECLINED' },
+    on_hold: { cls: 'badge--on_hold', text: 'ON HOLD' }
+  };
+  var b = map[category] || map['approved'];
+  return '<span class="badge ' + b.cls + '">' + b.text + '</span>';
+}
+
+function renderApps() {
+  var query = document.getElementById('app-search').value.toLowerCase().trim();
+  var grid = document.getElementById('apps-grid');
+  var empty = document.getElementById('apps-empty');
+
+  var filtered = APPS_DATA.filter(function(app) {
+    if (!showDeclined && (app.category === 'declined' || app.category === 'on_hold')) return false;
+    if (query) {
+      return app.name.toLowerCase().includes(query) || app.desc.toLowerCase().includes(query);
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.hidden = false;
+    return;
+  }
+  empty.hidden = true;
+
+  grid.innerHTML = filtered.map(function(app) {
+    var noteIcon = '<svg class="app-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+    var accessIcon = '<svg class="app-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>';
+    return '<div class="app-card">' +
+      '<div class="app-card-stripe stripe--' + app.category + '"></div>' +
+      '<div class="app-card-top">' +
+        '<span class="app-name">' + app.name + '</span>' +
+        getStatusBadgeHTML(app.category) +
+      '</div>' +
+      '<p class="app-desc">' + app.desc + '</p>' +
+      '<div class="app-meta">' +
+        '<div class="app-meta-row">' + accessIcon + '<span>' + app.accessDetail + '</span></div>' +
+        '<div class="app-meta-row">' + noteIcon + '<span>' + app.note + '</span></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+document.getElementById('app-search').addEventListener('input', renderApps);
+
+document.getElementById('btn-toggle-declined').addEventListener('click', function() {
+  showDeclined = !showDeclined;
+  this.classList.toggle('btn-toggle--active', showDeclined);
+  this.innerHTML = showDeclined
+    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg> Hide Declined/Hold Apps'
+    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Show Declined/Hold Apps';
+  renderApps();
+});
+
+// ============================================================
+// 8. FAQ (AI Assistant)
+// ============================================================
+var FAQ_DATA = [
+  {
+    q: 'Can I use ChatGPT?',
+    a: 'No. ChatGPT is not approved for use at Saigon South International School due to data privacy concerns. Use Perplexity.ai for research, or Google Gemini with your SSIS account for sensitive tasks.'
+  },
+  {
+    q: 'What can students use for research?',
+    a: 'Students can use: Perplexity.ai (AI search with citations), JSTOR AI (academic research), Consensus (scientific papers), Open Knowledge Maps, UnPayWallMe, Statista AI, and Elicit.org. Students must cite AI use in NoodleTools.'
+  },
+  {
+    q: 'Can I put student data into AI tools?',
+    a: "Only with tools in our 'Walled Garden' \u2014 Google Gemini and NotebookLM accessed with your @ssis.edu.vn school account. Never enter student names, IDs, or personal data into public AI tools like Perplexity, ChatGPT, or MagicSchool."
+  },
+  {
+    q: "What's the 'Walled Garden'?",
+    a: "Our Walled Garden is Google's AI tools accessed through your @ssis.edu.vn school account \u2014 specifically Google Gemini and NotebookLM. These tools are part of our Google Education workspace and provide better data protection than public AI tools."
+  },
+  {
+    q: "What's the best tool for lesson planning?",
+    a: 'MagicSchool AI and Brisk Teaching are excellent for lesson planning, rubrics, and differentiated resources. Both are staff-only. You can also check the Gems Library for pre-made EduGem prompts in Google Gemini.'
+  },
+  {
+    q: 'Do students need to cite AI use?',
+    a: 'Yes. Students must acknowledge AI assistance in their work. For formal submissions, they should cite AI use in NoodleTools using the shareable URL from the AI tool. Presenting AI-generated work as entirely your own is an academic integrity violation.'
+  },
+  {
+    q: 'Is Claude AI approved?',
+    a: 'Claude is currently on hold and under review. Do not use it until officially approved. Check back on this page for updates.'
+  },
+  {
+    q: 'What tool should I use for email drafting?',
+    a: 'Use the SSIS Email & Communication Gem in Google Gemini \u2014 accessible with your @ssis.edu.vn account. Never include student names or sensitive data in the prompt.'
+  },
+  {
+    q: 'Can Canva AI be used by students?',
+    a: "Yes. Canva AI features are approved for all staff and students as part of our Canva for Education license. AI-generated images should not be presented as original student work without acknowledgment."
+  },
+  {
+    q: "What if I'm unsure about my planned AI use?",
+    a: "Use the 'Check Your Task' tool on the home page \u2014 it walks you through a quick 5-step policy check. For complex questions, contact the IT or Curriculum team."
+  }
+];
+
+function renderFAQ(query) {
+  var list = document.getElementById('faq-list');
+  var q = (query || '').toLowerCase().trim();
+  var filtered = FAQ_DATA.filter(function(item) {
+    if (!q) return true;
+    return item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q);
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-secondary)">No FAQs match your search.</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(function(item, i) {
+    return '<div class="faq-item" id="faq-' + i + '">' +
+      '<button class="faq-question" onclick="toggleFaq(\'faq-' + i + '\')">' +
+        '<span>' + item.q + '</span>' +
+        '<svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '</button>' +
+      '<div class="faq-answer"><div class="faq-answer-inner">' + item.a + '</div></div>' +
+    '</div>';
+  }).join('');
+}
+
+function toggleFaq(id) {
+  var el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+var faqSearchEl = document.getElementById('faq-search');
+faqSearchEl.addEventListener('input', function() {
+  renderFAQ(this.value);
+});
+
+// ============================================================
+// 9. INITIALISE
+// ============================================================
+renderChecker();
+renderApps();
+renderFAQ();
+
+</script>
+</body>
+</html>

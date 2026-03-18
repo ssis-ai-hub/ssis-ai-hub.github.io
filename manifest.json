@@ -1,0 +1,16 @@
+{
+  "name": "SSIS AI Hub",
+  "short_name": "SSIS AI Hub",
+  "description": "Your central resource for safe, ethical, and effective AI use at Saigon South International School.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EEF2FA",
+  "theme_color": "#1A56DB",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

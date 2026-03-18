@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#EEF2FA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<script>(function(){var k="ssis-ai-hub-dark";if(localStorage.getItem(k)){document.documentElement.setAttribute("data-theme","dark");var t=document.querySelector("meta[name=\"theme-color\"]"),s=document.querySelector("meta[name=\"apple-mobile-web-app-status-bar-style\"]");if(t)t.setAttribute("content","#0F172A");if(s)s.setAttribute("content","black-translucent");}})();</script>
+<title>Gems Library — SSIS AI Hub</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script src="/sw-register.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-sans: "Inter", -apple-system, sans-serif;
+  --font-display: "Poppins", "Inter", sans-serif;
+  --bg-color: #EEF2FA;
+  --bg-pattern: #D8E6F7;
+  --text-main: #1A2340;
+  --text-secondary: #546380;
+  --brand-primary: #1A56DB;
+  --brand-accent: #0E9488;
+  --card-bg: #FFFFFF;
+  --card-border: #CBD5E1;
+  --card-shadow: 0 4px 16px rgba(26,86,219,0.06);
+  --nav-bg: rgba(255,255,255,0.95);
+  --nav-border: rgba(26,86,219,0.12);
+  --muted-bg: #F1F5F9;
+  --input-bg: #FFFFFF;
+  --input-border: #CBD5E1;
+}
+[data-theme="dark"] {
+  --bg-color: #0F172A;
+  --bg-pattern: #1E293B;
+  --text-main: #E2E8F0;
+  --text-secondary: #94A3B8;
+  --brand-primary: #60A5FA;
+  --brand-accent: #2DD4BF;
+  --card-bg: #1E293B;
+  --card-border: #334155;
+  --card-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  --nav-bg: rgba(15,23,42,0.95);
+  --nav-border: rgba(255,255,255,0.08);
+  --muted-bg: #1E293B;
+  --input-bg: #1E293B;
+  --input-border: #334155;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background-color:var(--bg-color);background-image:radial-gradient(var(--bg-pattern) 1px,transparent 1px);background-size:28px 28px;color:var(--text-main);min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:100;background:var(--nav-bg);border-bottom:1px solid var(--nav-border);backdrop-filter:blur(8px)}
+.header-bar{height:4px;background:linear-gradient(90deg,var(--brand-primary),var(--brand-accent))}
+.header-inner{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px;justify-content:space-between}
+.header-left{display:flex;align-items:center;gap:12px}
+.back-link{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid var(--card-border);background:none;color:var(--text-secondary);font-size:.875rem;font-weight:600;transition:all .15s}
+.back-link:hover{color:var(--brand-primary);border-color:var(--brand-primary);background:var(--muted-bg)}
+.divider{height:24px;width:1px;background:var(--card-border)}
+.header-title{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--brand-primary)}
+.btn-theme{width:40px;height:40px;border-radius:8px;border:1px solid var(--card-border);background:var(--card-bg);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:border-color .15s}
+.btn-theme:hover{border-color:var(--brand-primary)}
+/* MAIN */
+.main{max-width:1200px;margin:0 auto;padding:32px 16px 64px}
+.page-heading{margin-bottom:32px}
+.page-heading h1{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--text-main);margin-bottom:6px}
+.page-heading p{color:var(--text-secondary)}
+/* SEARCH */
+.search-row{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+@media(min-width:640px){.search-row{flex-direction:row;align-items:center}}
+.search-wrap{flex:1;position:relative}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--text-secondary);pointer-events:none}
+.search-input{width:100%;padding:10px 12px 10px 40px;border-radius:8px;border:1px solid var(--input-border);background:var(--input-bg);color:var(--text-main);font-size:.9rem;outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--brand-primary)}
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:24px;border-bottom:2px solid var(--card-border);padding-bottom:0}
+.tab-btn{padding:10px 20px;border:none;background:none;color:var(--text-secondary);font-weight:600;font-size:.9rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;display:flex;align-items:center;gap:6px}
+.tab-btn.active{color:var(--brand-primary);border-bottom-color:var(--brand-primary)}
+.tab-btn:hover:not(.active){color:var(--text-main)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+/* CATEGORY FILTERS */
+.category-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.cat-btn{padding:7px 14px;border-radius:999px;border:1px solid var(--card-border);background:none;color:var(--text-secondary);font-size:.8rem;font-weight:600;transition:all .15s}
+.cat-btn.active{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary)}
+.cat-btn:hover:not(.active){border-color:var(--brand-primary);color:var(--brand-primary)}
+/* INFO CARD */
+.info-card{background:var(--muted-bg);border:1px solid var(--card-border);border-radius:10px;padding:20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
+.info-card svg{color:var(--brand-primary);flex-shrink:0;margin-top:2px}
+.info-card h3{font-weight:700;font-size:.95rem;color:var(--text-main);margin-bottom:4px}
+.info-card p{font-size:.875rem;color:var(--text-secondary);line-height:1.5}
+.info-card a{color:var(--brand-primary);font-size:.875rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;margin-top:8px}
+.info-card a:hover{text-decoration:underline}
+/* GEM GRID */
+.gems-grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:480px){.gems-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:768px){.gems-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1024px){.gems-grid{grid-template-columns:repeat(4,1fr)}}
+.gem-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:16px;cursor:pointer;transition:all .15s;text-align:left}
+.gem-card:hover{border-color:var(--brand-primary);box-shadow:var(--card-shadow);transform:translateY(-2px)}
+.gem-card-inner{display:flex;align-items:flex-start;gap:10px}
+.gem-emoji{font-size:1.6rem;line-height:1;flex-shrink:0}
+.gem-name{font-weight:600;font-size:.9rem;color:var(--text-main);margin-bottom:3px}
+.gem-card:hover .gem-name{color:var(--brand-primary)}
+.gem-desc{font-size:.78rem;color:var(--text-secondary);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gem-cat-badge{display:inline-block;margin-top:8px;padding:2px 8px;border-radius:999px;font-size:.7rem;font-weight:600;background:var(--muted-bg);color:var(--text-secondary);border:1px solid var(--card-border)}
+.gems-empty{text-align:center;padding:48px 24px;color:var(--text-secondary)}
+.gems-empty svg{width:48px;height:48px;opacity:.3;margin:0 auto 12px}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.hidden{display:none}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.modal-box{position:relative;background:var(--card-bg);border-radius:16px;width:100%;max-width:480px;box-shadow:0 24px 64px rgba(0,0,0,.3);overflow:hidden}
+.modal-header{padding:20px 20px 0}
+.modal-title-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.modal-emoji{font-size:2.5rem}
+.modal-name{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--text-main)}
+.modal-body{padding:0 20px 20px;display:flex;flex-direction:column;gap:12px}
+.modal-cat-badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.75rem;font-weight:600;background:var(--muted-bg);color:var(--text-secondary);border:1px solid var(--card-border)}
+.modal-desc{font-size:.875rem;color:var(--text-secondary);line-height:1.6}
+.modal-note{font-size:.8rem;color:var(--text-secondary);font-style:italic}
+.modal-actions{display:flex;flex-direction:column;gap:8px}
+@media(min-width:400px){.modal-actions{flex-direction:row}}
+.btn-use-gem{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 16px;border-radius:8px;background:var(--brand-primary);color:#fff;font-weight:600;font-size:.875rem;border:none;text-decoration:none;transition:opacity .15s}
+.btn-use-gem:hover{opacity:.88}
+.btn-copy-gem{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 16px;border-radius:8px;border:1px solid var(--card-border);background:none;color:var(--text-main);font-weight:600;font-size:.875rem;transition:all .15s}
+.btn-copy-gem:hover{border-color:var(--brand-primary);color:var(--brand-primary)}
+.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:8px;border:1px solid var(--card-border);background:var(--muted-bg);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all .15s}
+.modal-close:hover{color:var(--text-main);border-color:var(--text-main)}
+/* EMPTY STATE */
+.empty-ssis{text-align:center;padding:64px 24px;color:var(--text-secondary)}
+.empty-ssis svg{width:56px;height:56px;opacity:.25;margin:0 auto 16px}
+.empty-ssis p{font-weight:500;margin-bottom:4px;color:var(--text-main)}
+.empty-ssis small{font-size:.875rem}
+/* FOOTER */
+.site-footer{text-align:center;padding:28px 16px;color:var(--text-secondary);font-size:.8125rem;border-top:1px solid var(--card-border);margin-top:48px}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-bar"></div>
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="/" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="19 12 5 12"/><polyline points="12 5 5 12 12 19"/></svg>
+        Back to Hub
+      </a>
+      <div class="divider"></div>
+      <span class="header-title">SSIS AI Hub</span>
+    </div>
+    <button id="btn-theme" class="btn-theme" aria-label="Toggle theme">&#9728;&#65039;</button>
+  </div>
+</header>
+
+<main class="main">
+  <div class="page-heading">
+    <h1>Gems Library</h1>
+    <p>Pre-made AI prompts for educators using Google Gemini</p>
+  </div>
+
+  <div class="search-row">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="gem-search" class="search-input" placeholder="Search gems...">
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="edugems">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 3l.75 2.25L22 6l-2.25.75L19 9l-.75-2.25L16 6l2.25-.75z"/></svg>
+      EduGems (<span id="edugem-count">57</span>)
+    </button>
+    <button class="tab-btn" data-tab="ssis">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"/></svg>
+      SSIS Gems (0)
+    </button>
+  </div>
+
+  <div id="tab-edugems" class="tab-panel active">
+    <div class="category-filters" id="cat-filters"></div>
+    <div class="info-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/></svg>
+      <div>
+        <h3>About EduGems</h3>
+        <p>EduGems is a collection of pre-made prompts created by Eric Curts. Click any gem to open it in Google Gemini.</p>
+        <a href="https://www.edugems.ai/home" target="_blank" rel="noopener noreferrer">
+          Visit EduGems.ai
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="gems-grid" id="edugems-grid"></div>
+    <p class="gems-empty" id="edugems-empty" style="display:none">No gems found matching your search.</p>
+  </div>
+
+  <div id="tab-ssis" class="tab-panel">
+    <div class="info-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3L8 9l4 13 4-13-3-6"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+      <div>
+        <h3>SSIS Custom Gems</h3>
+        <p>These are Gemini Gems created by SSIS staff. To add a new gem, edit the gems configuration and push to GitHub.</p>
+      </div>
+    </div>
+    <div class="empty-ssis">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3L8 9l4 13 4-13-3-6"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+      <p>No SSIS Gems yet.</p>
+      <small>Gems will appear here once added by SSIS staff.</small>
+    </div>
+  </div>
+</main>
+
+<!-- GEM MODAL -->
+<div id="gem-modal" class="modal-overlay hidden">
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <button class="modal-close" id="modal-close" aria-label="Close">&#10005;</button>
+    <div class="modal-header">
+      <div class="modal-title-row">
+        <span class="modal-emoji" id="modal-emoji"></span>
+        <span class="modal-name" id="modal-name"></span>
+      </div>
+    </div>
+    <div class="modal-body">
+      <span class="modal-cat-badge" id="modal-cat"></span>
+      <p class="modal-desc" id="modal-desc"></p>
+      <p class="modal-note">This Gem is a pre-made prompt that runs in Google Gemini. Click below to use it directly or copy the link.</p>
+      <div class="modal-actions">
+        <a id="modal-use" href="#" target="_blank" rel="noopener noreferrer" class="btn-use-gem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Use Gem
+        </a>
+        <button id="modal-copy" class="btn-copy-gem">
+          <svg id="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="copy-label">Copy Gem Link</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  Saigon South International School &copy; 2025. Excellence, Integrity, Compassion.
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+var CATEGORIES = [
+  {id:"all",label:"All Gems"},
+  {id:"curriculum",label:"Curriculum & Lesson Design"},
+  {id:"literacy",label:"Literacy & Language"},
+  {id:"student",label:"Student Activities"},
+  {id:"assessment",label:"Assessment"},
+  {id:"support",label:"Support"},
+  {id:"professional",label:"Professional Tasks"}
+];
+
+var EDUGEMS = [
+  {name:"ACT English Generator",cat:"assessment",emoji:"\uD83D\uDCD3",id:"0b20a4ef0cd0",desc:"Generate ACT-style English practice questions"},
+  {name:"ACT English Practice",cat:"assessment",emoji:"\uD83D\uDCD3",id:"08733c6e683c",desc:"Interactive ACT English practice sessions"},
+  {name:"ACT Math Generator",cat:"assessment",emoji:"\uD83D\uDD22",id:"60ed5dcf2e12",desc:"Create ACT-style math problems"},
+  {name:"ACT Math Practice",cat:"assessment",emoji:"\uD83D\uDD22",id:"b28c5e6fd678",desc:"Interactive ACT math practice"},
+  {name:"ACT Reading Generator",cat:"assessment",emoji:"\uD83D\uDCD6",id:"7a558195345a",desc:"Generate ACT reading comprehension passages"},
+  {name:"ACT Reading Practice",cat:"assessment",emoji:"\uD83D\uDCD6",id:"40b18d62740c",desc:"Practice ACT reading skills"},
+  {name:"AI + SAMR Activity",cat:"curriculum",emoji:"\uD83E\uDD16",id:"6b1c7c93775b",desc:"Design AI-enhanced lessons using SAMR model"},
+  {name:"AI Prompt Architect",cat:"professional",emoji:"\uD83D\uDCD0",id:"8757f5a77104",desc:"Build effective AI prompts"},
+  {name:"AI Prompt Doctor",cat:"professional",emoji:"\uD83D\uDC8A",id:"3875c389264c",desc:"Improve and fix AI prompts"},
+  {name:"AI Role Play Interview",cat:"student",emoji:"\uD83C\uDF99",id:"733246742fd1",desc:"Conduct role-play interviews with AI"},
+  {name:"Alt Text",cat:"support",emoji:"\uD83D\uDCAC",id:"b63db0473e81",desc:"Generate accessible alt text for images"},
+  {name:"Alternate Assessment",cat:"assessment",emoji:"\uD83C\uDF9A",id:"5c6709e65f62",desc:"Create alternate assessment options"},
+  {name:"Assessment Data Analyzer",cat:"assessment",emoji:"\uD83D\uDCCA",id:"fcc53b40b1f9",desc:"Analyze assessment data for insights"},
+  {name:"Behavior Intervention",cat:"support",emoji:"\uD83D\uDEA6",id:"ec4dd2f3c017",desc:"Create behavior intervention strategies"},
+  {name:"Bell Ringer by Date",cat:"curriculum",emoji:"\uD83D\uDD14",id:"34c22511133d",desc:"Generate bell ringers for specific dates"},
+  {name:"2 Truths & a Lie Game",cat:"student",emoji:"\uD83E\uDEE2",id:"9666fbe7148e",desc:"Create educational 2 Truths and a Lie games"},
+  {name:"20 Questions Game",cat:"student",emoji:"\uD83E\uDD14",id:"8b1841f81c6f",desc:"Generate 20 Questions games on any topic"},
+  {name:"Career Explorer",cat:"student",emoji:"\uD83D\uDCBC",id:"f2399358e055",desc:"Explore career paths and requirements"},
+  {name:"Choice Board",cat:"curriculum",emoji:"\uD83D\uDD20",id:"291188724d9f",desc:"Create student choice boards"},
+  {name:"Class Newsletter",cat:"professional",emoji:"\uD83D\uDCF0",id:"cbe3b34828e5",desc:"Generate class newsletters"},
+  {name:"Class Syllabus",cat:"curriculum",emoji:"\uD83D\uDCC4",id:"5f6fd64a6665",desc:"Create comprehensive class syllabi"},
+  {name:"Classroom Taboo Game",cat:"student",emoji:"\uD83E\uDD10",id:"87c026dc1151",desc:"Generate Taboo-style vocabulary games"},
+  {name:"Coloring Page Maker",cat:"student",emoji:"\uD83D\uDD8D",id:"f6c7cc40cf93",desc:"Create educational coloring pages"},
+  {name:"Common Misconceptions",cat:"support",emoji:"\u274C",id:"e153ff7071b8",desc:"Identify common student misconceptions"},
+  {name:"Concept Analogies",cat:"support",emoji:"\u2696",id:"ef62b756bbd9",desc:"Generate analogies to explain concepts"},
+  {name:"CYOA Story",cat:"student",emoji:"\uD83D\uDD20",id:"e7af90a4e10b",desc:"Create Choose Your Own Adventure stories"},
+  {name:"Decodable Texts",cat:"literacy",emoji:"\uD83D\uDCD6",id:"c3b92bc6e1da",desc:"Generate decodable reading texts"},
+  {name:"Devil's Advocate",cat:"professional",emoji:"\uD83D\uDE08",id:"8dae45204afe",desc:"Challenge ideas from opposing viewpoints"},
+  {name:"Differentiation Strategies",cat:"support",emoji:"\uD83D\uDD20",id:"263783ca73e8",desc:"Generate differentiation strategies"},
+  {name:"Discussion Prompts",cat:"literacy",emoji:"\uD83D\uDDE3",id:"cc5acbba70f7",desc:"Create engaging discussion prompts"},
+  {name:"DOK Analysis",cat:"assessment",emoji:"\uD83D\uDCCA",id:"e591c695db57",desc:"Analyze Depth of Knowledge levels"},
+  {name:"DOK Questions",cat:"assessment",emoji:"\u2753",id:"b3d2e8e98bad",desc:"Generate questions at specific DOK levels"},
+  {name:"EduGem Generator",cat:"professional",emoji:"\uD83D\uDC8E",id:"ad7715e71f19",desc:"Create your own EduGems"},
+  {name:"ELL Conversation",cat:"literacy",emoji:"\uD83D\uDCAC",id:"0cd4c4e7cde2",desc:"Practice conversations for ELL students"},
+  {name:"Emergency Sub Plan",cat:"professional",emoji:"\uD83D\uDEA8",id:"2a4df06f644d",desc:"Create emergency substitute plans"},
+  {name:"Emoji Definition Game",cat:"student",emoji:"\uD83D\uDCD3",id:"38d1da0aec42",desc:"Create vocabulary games using emojis"},
+  {name:"Error-Resistant Research",cat:"professional",emoji:"\uD83C\uDFDB",id:"56fc65eef18f",desc:"Research with fact-checking"},
+  {name:"Exemplar & Non-Exemplar",cat:"assessment",emoji:"\uD83D\uDD20",id:"db5fb4e6cf93",desc:"Generate example and non-example responses"},
+  {name:"Field Trip Plan",cat:"professional",emoji:"\uD83D\uDE8C",id:"1ba0c7d1bc65",desc:"Plan educational field trips"},
+  {name:"Gamified Learning",cat:"curriculum",emoji:"\uD83C\uDFB2",id:"f35a3492847e",desc:"Create gamified learning experiences"},
+  {name:"Graphic Novel Maker",cat:"literacy",emoji:"\uD83D\uDDE3",id:"108ff7d9e325",desc:"Create educational graphic novels"},
+  {name:"Guided Notes",cat:"support",emoji:"\uD83E\uDDED",id:"82af7c15e2a7",desc:"Generate guided note templates"},
+  {name:"Historical What If?",cat:"curriculum",emoji:"\u231B",id:"1ccad779d009",desc:"Explore alternative history scenarios"},
+  {name:"IEP/504 SMART Goal",cat:"support",emoji:"\uD83C\uDFAF",id:"e2e7951e146d",desc:"Write SMART goals for IEPs/504s"},
+  {name:"Inaccurate Text",cat:"assessment",emoji:"\u274C",id:"3a0aff8bb224",desc:"Create texts with errors to find"},
+  {name:"Informational Text",cat:"literacy",emoji:"\uD83D\uDCC3",id:"ad5a4baecca0",desc:"Generate informational texts on any topic"},
+  {name:"Jigsaw Activity",cat:"curriculum",emoji:"\uD83E\uDDE9",id:"01c9d2761eed",desc:"Design jigsaw cooperative learning"},
+  {name:"Learner Scaffolds",cat:"support",emoji:"\uD83E\uDEDC",id:"ebeaa9cf76f0",desc:"Create learning scaffolds"},
+  {name:"Lesson Hooks",cat:"curriculum",emoji:"\uD83E\uDEDD",id:"ff7ad03b2bfe",desc:"Generate engaging lesson hooks"},
+  {name:"Math Spiral Review",cat:"assessment",emoji:"\uD83D\uDD04",id:"d3ea11e7d949",desc:"Generate spiral math review problems"},
+  {name:"Math Story Problems",cat:"assessment",emoji:"\u2795",id:"cbdb1a8da951",desc:"Create math word problems"},
+  {name:"NWEA MAP Analysis",cat:"assessment",emoji:"\uD83D\uDDFA",id:"85791523839b",desc:"Analyze NWEA MAP assessment data"},
+  {name:"PD Plan",cat:"professional",emoji:"\uD83D\uDCA1",id:"496c6e4edf89",desc:"Create professional development plans"},
+  {name:"Project Breakdown",cat:"support",emoji:"\uD83D\uDCCB",id:"62ee84424685",desc:"Break down complex projects into steps"},
+  {name:"Reader's Theater",cat:"student",emoji:"\uD83C\uDFAD",id:"433b8ac5ceba",desc:"Create reader's theater scripts"},
+  {name:"Reading List",cat:"literacy",emoji:"\uD83D\uDCD7",id:"298289e185f3",desc:"Generate curated reading lists"},
+  {name:"Rubric",cat:"assessment",emoji:"\uD83D\uDCCB",id:"5ac52615a29c",desc:"Create assessment rubrics"},
+  {name:"Unit Plan",cat:"curriculum",emoji:"\uD83D\uDCCB",id:"d4fcd96456fd",desc:"Create comprehensive unit plans"},
+  {name:"World Language Conversation",cat:"literacy",emoji:"\uD83C\uDE49",id:"078b701cf856",desc:"Practice world language conversations"}
+];
+
+// ── STATE ─────────────────────────────────────────────────────
+var activeCategory = "all";
+var searchQuery = "";
+var selectedGem = null;
+
+// ── THEME ─────────────────────────────────────────────────────
+var DARK_KEY = "ssis-ai-hub-dark";
+var LIGHT_KEY = "ssis-ai-hub-light";
+var themeBtn = document.getElementById("btn-theme");
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  var isDark = theme === "dark";
+  var tc = document.querySelector("meta[name=\"theme-color\"]");
+  var sb = document.querySelector("meta[name=\"apple-mobile-web-app-status-bar-style\"]");
+  if (tc) tc.setAttribute("content", isDark ? "#0F172A" : "#EEF2FA");
+  if (sb) sb.setAttribute("content", isDark ? "black-translucent" : "default");
+  themeBtn.textContent = isDark ? "\uD83C\uDF19" : "\u2600\uFE0F";
+}
+
+themeBtn.addEventListener("click", function() {
+  var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  var next = isDark ? "light" : "dark";
+  localStorage.setItem(next === "dark" ? DARK_KEY : LIGHT_KEY, "true");
+  localStorage.removeItem(next === "dark" ? LIGHT_KEY : DARK_KEY);
+  applyTheme(next);
+});
+
+window.addEventListener("pageshow", function() {
+  applyTheme(document.documentElement.getAttribute("data-theme") || "light");
+});
+applyTheme(localStorage.getItem(DARK_KEY) ? "dark" : "light");
+
+// ── TABS ──────────────────────────────────────────────────────
+document.querySelectorAll(".tab-btn").forEach(function(btn) {
+  btn.addEventListener("click", function() {
+    document.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
+    document.querySelectorAll(".tab-panel").forEach(function(p) { p.classList.remove("active"); });
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
+// ── CATEGORY FILTERS ──────────────────────────────────────────
+function renderCategoryFilters() {
+  var container = document.getElementById("cat-filters");
+  container.innerHTML = CATEGORIES.map(function(cat) {
+    return "<button class=\"cat-btn" + (activeCategory === cat.id ? " active" : "") + "\" data-cat=\"" + cat.id + "\">" + cat.label + "</button>";
+  }).join("");
+  container.querySelectorAll(".cat-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      activeCategory = btn.dataset.cat;
+      renderCategoryFilters();
+      renderGems();
+    });
+  });
+}
+
+// ── GEMS GRID ─────────────────────────────────────────────────
+function getCatLabel(catId) {
+  var cat = CATEGORIES.find(function(c) { return c.id === catId; });
+  return cat ? cat.label : catId;
+}
+
+function renderGems() {
+  var q = searchQuery.toLowerCase();
+  var filtered = EDUGEMS.filter(function(g) {
+    var matchSearch = !q || g.name.toLowerCase().includes(q) || (g.desc && g.desc.toLowerCase().includes(q));
+    var matchCat = activeCategory === "all" || g.cat === activeCategory;
+    return matchSearch && matchCat;
+  });
+
+  document.getElementById("edugem-count").textContent = filtered.length;
+  var grid = document.getElementById("edugems-grid");
+  var empty = document.getElementById("edugems-empty");
+
+  if (filtered.length === 0) {
+    grid.innerHTML = "";
+    empty.style.display = "";
+    return;
+  }
+  empty.style.display = "none";
+  grid.innerHTML = filtered.map(function(g) {
+    return "<button class=\"gem-card\" data-gem-id=\"" + g.id + "\">" +
+      "<div class=\"gem-card-inner\">" +
+        "<span class=\"gem-emoji\">" + g.emoji + "</span>" +
+        "<div><div class=\"gem-name\">" + g.name + "</div>" +
+        "<div class=\"gem-desc\">" + (g.desc || "") + "</div>" +
+        "<span class=\"gem-cat-badge\">" + getCatLabel(g.cat) + "</span></div>" +
+      "</div>" +
+    "</button>";
+  }).join("");
+
+  grid.querySelectorAll(".gem-card").forEach(function(card) {
+    card.addEventListener("click", function() {
+      var gem = EDUGEMS.find(function(g) { return g.id === card.dataset.gemId; });
+      if (gem) openModal(gem);
+    });
+  });
+}
+
+// ── SEARCH ────────────────────────────────────────────────────
+document.getElementById("gem-search").addEventListener("input", function(e) {
+  searchQuery = e.target.value;
+  renderGems();
+});
+
+// ── MODAL ─────────────────────────────────────────────────────
+function openModal(gem) {
+  selectedGem = gem;
+  document.getElementById("modal-emoji").textContent = gem.emoji;
+  document.getElementById("modal-name").textContent = gem.name;
+  document.getElementById("modal-cat").textContent = getCatLabel(gem.cat);
+  document.getElementById("modal-desc").textContent = gem.desc || "";
+  document.getElementById("modal-use").href = "https://gemini.google.com/gems/copy/" + gem.id;
+  document.getElementById("copy-label").textContent = "Copy Gem Link";
+  document.getElementById("gem-modal").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  document.getElementById("gem-modal").classList.add("hidden");
+  document.body.style.overflow = "";
+  selectedGem = null;
+}
+
+document.getElementById("modal-close").addEventListener("click", closeModal);
+document.getElementById("modal-backdrop").addEventListener("click", closeModal);
+
+document.getElementById("modal-copy").addEventListener("click", function() {
+  if (!selectedGem) return;
+  var url = "https://gemini.google.com/gems/copy/" + selectedGem.id;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() {
+      document.getElementById("copy-label").textContent = "Copied!";
+      setTimeout(function() {
+        document.getElementById("copy-label").textContent = "Copy Gem Link";
+      }, 2000);
+    });
+  } else {
+    var ta = document.createElement("textarea");
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    document.getElementById("copy-label").textContent = "Copied!";
+    setTimeout(function() {
+      document.getElementById("copy-label").textContent = "Copy Gem Link";
+    }, 2000);
+  }
+});
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") closeModal();
+});
+
+// ── INIT ──────────────────────────────────────────────────────
+renderCategoryFilters();
+renderGems();
+</script>
+</body>
+</html>
