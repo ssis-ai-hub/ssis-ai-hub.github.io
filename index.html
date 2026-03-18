@@ -1455,64 +1455,64 @@ function resetChecker() {
 // ============================================================
 var APPS_DATA = [
   {
+    id: 'perplexity', name: 'Perplexity.ai', category: 'approved',
+    desc: 'AI-powered search engine that provides cited, sourced answers. Great for research.',
+    accessDetail: 'All staff and students (with supervision for juniors)',
+    note: 'Use for research tasks. Always verify sources provided.'
+  },
+  {
     id: 'gemini', name: 'Google Gemini', category: 'staff_only',
-    desc: "Google's AI assistant accessed via SSIS school account. The primary 'Walled Garden' for tasks involving sensitive data.",
-    access: 'Staff Only', accessDetail: 'Use your @ssis.edu.vn Google account',
-    note: 'Safe for sensitive data when used with school account'
+    desc: "Google's AI assistant, integrated with Workspace. Our 'walled garden' for sensitive tasks.",
+    accessDetail: 'Staff only (must use SSIS account)',
+    note: 'Only use with your @ssis.edu.vn account. Approved for admin tasks with student data.'
   },
   {
-    id: 'notebooklm', name: 'NotebookLM', category: 'staff_only',
-    desc: "Google's AI-powered notebook for analysing documents, PDFs, and research materials. Part of the Google Education Walled Garden.",
-    access: 'Staff Only', accessDetail: 'Use your @ssis.edu.vn Google account',
-    note: 'Upload PDFs and documents for AI-powered research assistance'
+    id: 'brisk', name: 'Brisk Teaching', category: 'approved',
+    desc: 'AI-powered teaching assistant for creating resources, feedback, and lesson materials.',
+    accessDetail: 'All staff',
+    note: 'Excellent for quick quiz generation and differentiated worksheets.'
   },
   {
-    id: 'magicschool', name: 'MagicSchool AI', category: 'staff_only',
-    desc: '40+ AI tools designed specifically for educators: lesson plans, rubrics, IEP support, differentiation, and more.',
-    access: 'Staff Only', accessDetail: 'School-approved educator platform',
-    note: 'Do not enter student personal data'
+    id: 'notebooklm', name: 'NotebookLM', category: 'approved',
+    desc: "Google's AI notebook for document analysis \u2014 part of our Google Education workspace.",
+    accessDetail: 'All staff and senior students',
+    note: 'Safe for sensitive data. Great for document analysis. Upload PDFs and get summaries.'
   },
   {
-    id: 'brisk', name: 'Brisk Teaching', category: 'staff_only',
-    desc: 'Chrome extension providing AI-powered feedback, lesson planning, differentiation, and teaching resources.',
-    access: 'Staff Only', accessDetail: 'Chrome extension — staff only',
-    note: 'Do not enter student personal data'
+    id: 'magicschool', name: 'MagicSchool AI', category: 'approved',
+    desc: 'Suite of AI tools designed specifically for educators.',
+    accessDetail: 'All staff',
+    note: 'Use for lesson planning, rubric creation, and assessment design.'
   },
   {
-    id: 'diffit', name: 'Diffit', category: 'staff_only',
-    desc: 'Creates differentiated reading materials and resources at any reading level from any topic or text.',
-    access: 'Staff Only', accessDetail: 'Staff classroom tool',
-    note: 'Review all generated content before use with students'
-  },
-  {
-    id: 'perplexity', name: 'Perplexity.ai', category: 'staff_students',
-    desc: 'AI-powered search engine that provides cited, sourced answers. Excellent for research with verifiable references.',
-    access: 'Staff + Students', accessDetail: 'Approved for student research tasks',
-    note: 'Students must cite AI use in NoodleTools using shareable URL'
-  },
-  {
-    id: 'canva', name: 'Canva AI Tools', category: 'staff_only',
-    desc: 'AI image generation, background removal, and design assistance within Canva. Great for presentations and visual content.',
-    access: 'Staff Only', accessDetail: 'Staff use for school materials',
-    note: 'AI-generated images should not be presented as original artwork'
-  },
-  {
-    id: 'consensus', name: 'Consensus', category: 'staff_students',
-    desc: 'AI search engine for finding and summarising peer-reviewed scientific research papers.',
-    access: 'Staff + Students', accessDetail: 'Approved for academic research',
-    note: 'Excellent for IB Extended Essay and TOK research'
+    id: 'jstor', name: 'JSTOR AI', category: 'approved',
+    desc: "AI-assisted academic research through JSTOR's database.",
+    accessDetail: 'Senior students and staff',
+    note: 'For academic research. Citations are built-in.'
   },
   {
     id: 'chatgpt', name: 'ChatGPT', category: 'declined',
-    desc: 'OpenAI\'s general-purpose AI chatbot. Not approved for use at SSIS due to data privacy concerns.',
-    access: 'Not Approved', accessDetail: 'Declined — not for school use',
-    note: 'Use Perplexity.ai for research or Gemini (school account) instead'
+    desc: "OpenAI's chatbot is NOT approved due to data privacy concerns.",
+    accessDetail: 'Not approved for any users',
+    note: 'BLOCKED. Use Perplexity or Gemini (staff) instead.'
   },
   {
-    id: 'massolit', name: 'Massolit AI', category: 'staff_only',
-    desc: 'Platform of academic video lectures by university experts, with AI-powered discussion and analysis tools.',
-    access: 'Staff Only', accessDetail: 'Staff professional development',
-    note: 'Excellent for subject knowledge development and lesson inspiration'
+    id: 'personal-gmail', name: 'Personal Gmail AI', category: 'declined',
+    desc: 'Using AI with personal Google accounts is not permitted.',
+    accessDetail: 'Not approved',
+    note: 'Only school accounts are approved. Never use personal AI accounts for school work.'
+  },
+  {
+    id: 'claude', name: 'Claude', category: 'on_hold',
+    desc: "Anthropic's AI assistant is currently being evaluated.",
+    accessDetail: 'Under review',
+    note: 'Pending approval. Do not use until officially approved.'
+  },
+  {
+    id: 'canva', name: 'Canva AI', category: 'approved',
+    desc: 'AI features within Canva for design and content creation.',
+    accessDetail: 'All staff and students',
+    note: 'Safe to use for design tasks. Part of our Canva for Education license.'
   }
 ];
 
@@ -1520,11 +1520,11 @@ var showDeclined = false;
 
 function getStatusBadgeHTML(category) {
   var map = {
-    staff_only: { cls: 'badge--staff_only', text: 'Staff Only' },
-    staff_students: { cls: 'badge--approved', text: 'Staff + Students' },
-    approved: { cls: 'badge--approved', text: 'Approved' },
-    declined: { cls: 'badge--declined', text: 'Not Approved' },
-    on_hold: { cls: 'badge--on_hold', text: 'On Hold' }
+    staff_only: { cls: 'badge--staff_only', text: 'STAFF ONLY' },
+    staff_students: { cls: 'badge--approved', text: 'APPROVED' },
+    approved: { cls: 'badge--approved', text: 'APPROVED' },
+    declined: { cls: 'badge--declined', text: 'DECLINED' },
+    on_hold: { cls: 'badge--on_hold', text: 'ON HOLD' }
   };
   var b = map[category] || map['approved'];
   return '<span class="badge ' + b.cls + '">' + b.text + '</span>';
