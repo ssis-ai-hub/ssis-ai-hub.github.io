@@ -80,7 +80,9 @@ body {
   font-family: var(--font-sans);
   color: var(--text-main);
   min-height: 100vh;
+  line-height: 1.6;
 }
+button, input, select, textarea { font-family: var(--font-sans); }
 .offline-font body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 /* HEADER */
 .site-header {
@@ -231,7 +233,8 @@ body {
   border: 2px solid var(--card-border);
   background: none; cursor: pointer; text-align: left;
   color: var(--text-main); transition: all 0.15s;
-  font-size: 0.9rem; font-weight: 500; min-height: 44px;
+  font-size: 0.9rem; font-weight: 500; min-height: 52px;
+  line-height: 1.4;
 }
 .purpose-btn:hover { border-color: var(--brand-primary); background: rgba(26,86,219,0.04); }
 .purpose-icon {
@@ -249,19 +252,19 @@ body {
 .step-reminder svg { color: var(--brand-accent); flex-shrink: 0; margin-top: 2px; width: 18px; height: 18px; }
 .step-reminder p { font-size: 0.875rem; color: var(--text-main); margin: 0; line-height: 1.5; }
 .step-reminder a { color: var(--brand-primary); font-size: 0.875rem; font-weight: 600; display: block; margin-top: 8px; }
-.tool-list { display: flex; flex-direction: column; gap: 6px; max-height: 400px; overflow-y: auto; }
+.tool-list { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; }
 .tool-btn {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  gap: 12px; padding: 12px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 14px; border-radius: 8px;
   border: 2px solid var(--card-border);
   background: none; cursor: pointer; text-align: left;
-  transition: all 0.15s; min-height: 44px;
+  transition: all 0.15s; min-height: 52px;
 }
 .tool-btn:hover { border-color: var(--brand-primary); background: rgba(26,86,219,0.04); }
 .tool-btn--blocked { border-color: rgba(220,38,38,0.3); background: rgba(220,38,38,0.04); }
 .tool-btn--blocked:hover { border-color: var(--brand-danger); background: rgba(220,38,38,0.08); }
-.tool-name { font-weight: 600; font-size: 0.9rem; display: block; color: var(--text-main); }
-.tool-desc { font-size: 0.8rem; color: var(--text-secondary); display: block; margin-top: 2px; }
+.tool-name { font-weight: 600; font-size: 0.9rem; display: block; color: var(--text-main); line-height: 1.4; }
+.tool-desc { font-size: 0.8rem; color: var(--text-secondary); display: block; margin-top: 3px; line-height: 1.4; }
 .tool-access-badge {
   padding: 3px 8px; border-radius: 999px;
   font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; flex-shrink: 0; white-space: nowrap;
@@ -284,11 +287,11 @@ body {
 .yesno-btn--default:hover { border-color: var(--brand-primary); background: rgba(26,86,219,0.04); }
 .btn-reset {
   width: 100%; padding: 12px; border-radius: 8px;
-  border: none; background: none; color: var(--text-secondary);
+  border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-secondary);
   cursor: pointer; font-size: 0.875rem; font-weight: 600;
   transition: all 0.15s; margin-top: 8px;
 }
-.btn-reset:hover { background: var(--muted-bg); color: var(--text-main); }
+.btn-reset:hover { background: var(--muted-bg); color: var(--text-main); border-color: var(--text-secondary); }
 .checker-result-col {}
 @media(min-width:960px){ .checker-result-col { position: sticky; top: 80px; align-self: start; } }
 .result-card { border-radius: 16px; border: 2px solid var(--card-border); overflow: hidden; box-shadow: var(--card-shadow); }
@@ -1349,7 +1352,7 @@ function renderChecker() {
   html += '<strong>No / Not applicable</strong><span>No acknowledgement planned</span></button>';
   html += '</div></div></div>';
 
-  html += '<button id="btn-reset" class="btn-reset" hidden onclick="resetChecker()">↺ Start Over</button>';
+  html += '<button id="btn-reset" class="btn-reset" onclick="resetChecker()">↺ Start Again</button>';
 
   container.innerHTML = html;
   updateResult();
@@ -1440,7 +1443,6 @@ function selectAcknowledge(val) {
   sel.hidden = false;
   document.getElementById('badge-5').className = 'step-badge step-badge--done';
 
-  document.getElementById('btn-reset').hidden = false;
   updateResult();
 }
 
